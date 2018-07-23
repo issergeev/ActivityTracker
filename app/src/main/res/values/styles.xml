@@ -14,4 +14,7 @@
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
     </style>
 
+    <style name="LoadingTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/loading_background</item>
+    </style>
 </resources>
