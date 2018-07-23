@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">ActivityTracker</string>
+    <string name="id_number">Номер бирки</string>
+    <string name="type">Порода</string>
+    <string name="color">Масть</string>
+    <string name="mother">Мать</string>
+    <string name="father">Отец</string>
+    <string name="id">Номер чипа</string>
+    <string name="age">Возраст</string>
+    <string name="noAnimalsText">Вы пока не добавили ни одного животного</string>
+    <string name="animal_passport">Паспорт животного</string>
+    <string name="save">Сохранить</string>
+    <string name="close">Закрыть</string>
+    <string name="input_data">Ввод данных</string>
+    <string name="volume">Надой</string>
+    <string name="fat">Жирность</string>
+    <string name="weight">Масса</string>
+    <string name="birthDate">Дата рождения:</string>
+    <string name="defaultDate">Выбирите дату</string>
+    <string name="litre">Литр(ов)</string>
+    <string name="percent">%</string>
+    <string name="kg">Кг</string>
+    <string name="select_parent">Выбирите родителя</string>
+    <string name="incorrect_data">Некорректные данные</string>
+    <string name="wrong_text">Что-то пошло не так!</string>
+    <string name="quit">Выход</string>
+    <string name="quit_message">Выйти без сохранения данных?</string>
+    <string name="wait">Пожалуйста, подождите...</string>
+    <string name="refreshing_data">Обновляем данные...</string>
+    <string name="error">Ошибка</string>
+    <string name="input_fields">Пожалуйста, заполните все поля для продолжения!</string>
+
+    <string-array name="type_of_cows">
+        <item>Выберите породу</item>
+        <item>Айрширская</item>
+        <item>Англерская</item>
+        <item>Холмогорская</item>
+        <item>Голландская</item>
+        <item>Голштинская</item>
+    </string-array>
+
+    <string-array name="color_of_cows">
+        <item>Выбирите цвет</item>
+        <item>Черная</item>
+        <item>Белая</item>
+        <item>Красная</item>
+        <item>Рыжая</item>
+    </string-array>
+</resources>

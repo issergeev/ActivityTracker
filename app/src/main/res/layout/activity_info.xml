@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttons">
+
+        <RelativeLayout
+            android:id="@+id/parentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/headding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:padding="20dp"
+                android:text="@string/animal_passport"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="@dimen/headding_size"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:id="@+id/numberLayout"
+                android:layout_width="match_parent"
+                android:padding="@dimen/standart_margin"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/headding"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.4"
+                    android:layout_height="wrap_content"
+                    android:text="@string/id_number"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center"/>
+
+                <EditText
+                    android:id="@+id/number"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.6"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="@dimen/standart_margin"
+                    android:layout_marginTop="@dimen/standart_margin"
+                    android:layout_marginBottom="@dimen/standart_margin"
+                    android:inputType="numberDecimal"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:hint="@string/id_number"
+                    android:gravity="center"
+                    android:background="@drawable/spinner_shape"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height"
+                android:layout_margin="@dimen/standart_margin"
+                android:layout_weight="0.28"
+                android:layout_below="@id/numberLayout"
+                android:background="@drawable/spinner_shape"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="@dimen/height"
+                    android:layout_height="@dimen/height"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dropdown_icon"
+                    android:contentDescription="TODO"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/color"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height"
+                android:layout_margin="@dimen/standart_margin"
+                android:layout_weight="0.28"
+                android:layout_below="@id/type"
+                android:background="@drawable/spinner_shape"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="@dimen/height"
+                    android:layout_height="@dimen/height"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dropdown_icon"
+                    android:contentDescription="TODO"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mother"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height"
+                android:layout_margin="@dimen/standart_margin"
+                android:layout_weight="0.28"
+                android:layout_below="@id/color"
+                android:background="@drawable/spinner_shape"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="@dimen/height"
+                    android:layout_height="@dimen/height"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dropdown_icon"
+                    android:contentDescription="TODO"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/father"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height"
+                android:layout_margin="@dimen/standart_margin"
+                android:layout_weight="0.28"
+                android:layout_below="@id/mother"
+                android:background="@drawable/spinner_shape"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinner3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:background="@android:color/transparent"
+                    android:gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:spinnerMode="dropdown" />
+
+                <ImageView
+                    android:layout_width="@dimen/height"
+                    android:layout_height="@dimen/height"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/dropdown_icon"
+                    android:contentDescription="TODO"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/agePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_below="@id/father"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:text="@string/birthDate"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size"/>
+
+                <Button
+                    android:id="@+id/age"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:text="@string/defaultDate"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/text_size"
+                    android:background="@drawable/spinner_shape"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/milk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/agePicker"
+                android:padding="@dimen/standart_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="График надоя"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@android:color/holo_orange_light"/>
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/milkChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/agePicker"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/milk"
+                android:padding="@dimen/standart_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="График жирности"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@android:color/holo_orange_light"/>
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/fatChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/milk"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fat"
+                android:padding="@dimen/standart_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="График веса"
+                    android:textSize="@dimen/text_size"
+                    android:textColor="@android:color/holo_orange_light"/>
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/weightChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@id/fat"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/standart_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="@string/save"
+            android:background="@drawable/save_button_shape"/>
+
+        <Button
+            android:id="@+id/closeButton"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="@string/close"
+            android:background="@drawable/close_button_shape"/>
+    </LinearLayout>
+</RelativeLayout>

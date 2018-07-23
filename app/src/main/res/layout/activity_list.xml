@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <TableLayout
+        android:id="@+id/tableLayout0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/standart_margin"
+        android:layout_marginTop="@dimen/standart_margin"
+        android:layout_marginEnd="@dimen/standart_margin"
+        android:shrinkColumns="*"
+        android:stretchColumns="*"
+        android:orientation="horizontal">
+
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="55dp"
+            android:layout_marginBottom="@dimen/standart_margin"
+            android:background="@drawable/headding_shape">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="match_parent"
+                android:text="@string/id"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="match_parent"
+                android:text="@string/type"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="match_parent"
+                android:text="@string/color"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:layout_height="match_parent"
+                android:text="@string/age"
+                android:gravity="center"
+                android:textSize="@dimen/text_size"
+                android:textColor="@android:color/black"/>
+        </TableRow>
+    </TableLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tableLayout0">
+
+        <TableLayout
+            android:id="@+id/tableLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/standart_margin"
+            android:paddingEnd="@dimen/standart_margin"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+        </TableLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/noAnimalsText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/headding"
+        android:gravity="center"
+        android:text="@string/noAnimalsText"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="@dimen/headding_size"
+        android:visibility="gone"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end|bottom"
+        android:src="@android:drawable/ic_input_add"
+        android:elevation="5dp"/>
+</RelativeLayout>

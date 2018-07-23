@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ff5526</color>
+    <color name="colorPrimaryDark">#ff5526</color>
+    <color name="colorAccent">#ff7940</color>
+    <color name="cellColor">#ff7940</color>
+    <color name="saveButtonColor">#82ff54</color>
+</resources>
