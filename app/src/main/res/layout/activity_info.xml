@@ -25,14 +25,14 @@
                 android:padding="20dp"
                 android:text="@string/animal_passport"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="@dimen/headding_size"
+                android:textSize="@dimen/heading_size"
                 android:textStyle="bold"
                 android:gravity="center"/>
 
             <LinearLayout
                 android:id="@+id/numberLayout"
                 android:layout_width="match_parent"
-                android:padding="@dimen/standart_margin"
+                android:padding="@dimen/standard_margin"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/headding"
                 android:orientation="horizontal">
@@ -51,9 +51,9 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.6"
                     android:layout_height="40dp"
-                    android:layout_marginStart="@dimen/standart_margin"
-                    android:layout_marginTop="@dimen/standart_margin"
-                    android:layout_marginBottom="@dimen/standart_margin"
+                    android:layout_marginStart="@dimen/standard_margin"
+                    android:layout_marginTop="@dimen/standard_margin"
+                    android:layout_marginBottom="@dimen/standard_margin"
                     android:inputType="numberDecimal"
                     android:textColorHint="@android:color/darker_gray"
                     android:textColor="@android:color/black"
@@ -66,7 +66,7 @@
                 android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height"
-                android:layout_margin="@dimen/standart_margin"
+                android:layout_margin="@dimen/standard_margin"
                 android:layout_weight="0.28"
                 android:layout_below="@id/numberLayout"
                 android:background="@drawable/spinner_shape"
@@ -98,7 +98,7 @@
                 android:id="@+id/color"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height"
-                android:layout_margin="@dimen/standart_margin"
+                android:layout_margin="@dimen/standard_margin"
                 android:layout_weight="0.28"
                 android:layout_below="@id/type"
                 android:background="@drawable/spinner_shape"
@@ -130,7 +130,7 @@
                 android:id="@+id/mother"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height"
-                android:layout_margin="@dimen/standart_margin"
+                android:layout_margin="@dimen/standard_margin"
                 android:layout_weight="0.28"
                 android:layout_below="@id/color"
                 android:background="@drawable/spinner_shape"
@@ -162,7 +162,7 @@
                 android:id="@+id/father"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height"
-                android:layout_margin="@dimen/standart_margin"
+                android:layout_margin="@dimen/standard_margin"
                 android:layout_weight="0.28"
                 android:layout_below="@id/mother"
                 android:background="@drawable/spinner_shape"
@@ -224,7 +224,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/agePicker"
-                android:padding="@dimen/standart_margin"
+                android:padding="@dimen/standard_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -246,7 +246,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/milk"
-                android:padding="@dimen/standart_margin"
+                android:padding="@dimen/standard_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -268,7 +268,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fat"
-                android:padding="@dimen/standart_margin"
+                android:padding="@dimen/standard_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -290,7 +290,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/delete_button"
-                android:layout_margin="@dimen/standart_margin"
+                android:layout_margin="@dimen/standard_margin"
                 android:layout_below="@id/weight"
                 android:textColor="@android:color/holo_red_dark"
                 android:background="@drawable/delete_button_shape"
@@ -304,7 +304,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="@dimen/standart_margin"
+        android:padding="@dimen/standard_margin"
         android:orientation="horizontal">
 
         <Button

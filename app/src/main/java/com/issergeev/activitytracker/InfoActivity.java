@@ -235,7 +235,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                     String age = this.age.getText().toString();
                     String mother = spinner2.getSelectedItem().toString();
                     String father = spinner3.getSelectedItem().toString();
-                    Log.i("happy", mother);
+                    
                     new AddData().execute(id, type, color, age, mother, father);
                     finish();
                 }

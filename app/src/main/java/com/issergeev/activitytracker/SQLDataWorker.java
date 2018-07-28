@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class SQLDataWorker {
 
@@ -37,8 +36,6 @@ public class SQLDataWorker {
         cv.put(DB.getAGE(), age);
         cv.put(DB.getMOTHER(), mother);
         cv.put(DB.getFATHER(), father);
-
-        Log.i("happy", String.valueOf(cow_id));
 
         database.delete(DB.getTableName(), DB.getCowId() + " = ?",
                 new String[]{String.valueOf(cow_id)});

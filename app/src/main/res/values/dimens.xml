@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="standart_margin">10dp</dimen>
+    <dimen name="standard_margin">10dp</dimen>
     <dimen name="text_size">20sp</dimen>
-    <dimen name="headding_size">30sp</dimen>
+    <dimen name="heading_size">30sp</dimen>
     <dimen name="height">40dp</dimen>
     <dimen name="stroke_width">2dp</dimen>
     <dimen name="corners_radius">4dp</dimen>
     <dimen name="average_margin">20dp</dimen>
     <dimen name="tv_margin">4dp</dimen>
-    <dimen name="margin_start">5dp</dimen>
 </resources>
