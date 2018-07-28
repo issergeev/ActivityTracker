@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,7 +42,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Spinner spinner0, spinner1, spinner2, spinner3;
     private EditText cow_id;
     private Button age;
-    private  Button saveButton, closeButton;
+    private Button saveButton, closeButton, deleteButton;
     private GraphView milk, fat, weight;
 
     private AlertDialog.Builder alertDialog;
@@ -109,6 +110,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         age = findViewById(R.id.age);
         saveButton = findViewById(R.id.saveButton);
         closeButton = findViewById(R.id.closeButton);
+        deleteButton = findViewById(R.id.deleteButton);
         parentLayout = findViewById(R.id.parentLayout);
         milk = findViewById(R.id.milkChart);
         fat = findViewById(R.id.fatChart);
@@ -151,6 +153,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
         if (intent.hasExtra("type")) {
             cow_id.setEnabled(false);
+            deleteButton.setVisibility(View.VISIBLE);
 
             cow_id.setText(intent.getStringExtra("id"));
             spinner0.setSelection(typeAdapter.getPosition(intent.getStringExtra("type")));
@@ -175,8 +178,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
         saveButton.setOnClickListener(this);
         closeButton.setOnClickListener(this);
+        deleteButton.setOnClickListener(this);
 
         final Intent chartsIntent = new Intent(this, ChartsActivity.class);
+        chartsIntent.putExtra("date", age.getText().toString());
         chartsIntent.putExtra("id", intent.getStringExtra("id"));
         milk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,18 +228,33 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveButton:
-                if (spinner0.getSelectedItemPosition() != 0 && spinner1.getSelectedItemPosition() != 0
-                        && cow_id.getText().toString().trim().length() > 0) {
+                if (checkData() == 1) {
                     String id = cow_id.getText().toString().trim();
                     String type = spinner0.getSelectedItem().toString();
                     String color = spinner1.getSelectedItem().toString();
                     String age = this.age.getText().toString();
                     String mother = spinner2.getSelectedItem().toString();
                     String father = spinner3.getSelectedItem().toString();
-
+                    Log.i("happy", mother);
                     new AddData().execute(id, type, color, age, mother, father);
                     finish();
-                } else {
+                }
+                if (checkData() == 2) {
+                    AlertDialog.Builder alertDialog;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                                android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                    }
+                    alertDialog.setTitle(R.string.error)
+                            .setMessage(R.string.id_exists)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setCancelable(true)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                if(checkData() == 0) {
                     AlertDialog.Builder alertDialog;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         alertDialog = new AlertDialog.Builder(InfoActivity.this,
@@ -252,7 +272,40 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.closeButton:
                 finish();
+                break;
+            case R.id.deleteButton:
+                AlertDialog.Builder alertDialog;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                            android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                }
+                alertDialog.setTitle(R.string.attention)
+                        .setMessage(R.string.delete_text)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new DeleteData().execute(cow_id.getText().toString());
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setCancelable(true)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
         }
+    }
+
+    private int checkData() {
+        if (new ArrayList<>(intent.getStringArrayListExtra("parents")).contains(cow_id.getText().toString()) &&
+                !intent.hasExtra("id"))
+            return 2;
+        if (cow_id.getText().toString().trim().length() > 0 &&
+                spinner0.getSelectedItemPosition() != 0 &&
+                spinner1.getSelectedItemPosition() != 0 &&
+                Character.isDigit(age.getText().charAt(0)))
+            return 1;
+        return 0;
     }
 
     private void showDatePickerDialog(final String currentDate) {
@@ -319,6 +372,38 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             PD.dismiss();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class DeleteData extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+
+            PD = new ProgressDialog(InfoActivity.this);
+            PD.setTitle(getString(R.string.wait));
+            PD.setMessage(getString(R.string.refreshing_data));
+            PD.setCancelable(false);
+            PD.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            worker.open();
+            worker.deleteData(Integer.valueOf(strings[0]));
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            PD.dismiss();
+
+            finish();
         }
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#ff5526</color>
     <color name="colorPrimaryDark">#ff5526</color>
-    <color name="colorAccent">#ff7940</color>
-    <color name="cellColor">#ff7940</color>
+    <color name="colorAccent">#ff3a0e</color>
+    <color name="cellColor">#ffffff</color>
     <color name="saveButtonColor">#82ff54</color>
 </resources>

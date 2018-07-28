@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.format.Time;
@@ -87,10 +88,15 @@ public class ListActivity extends Activity {
 
         for (int i = 0; i < rows; i++) {
             final TableRow row = new TableRow(this);
-            row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.WRAP_CONTENT));
-            row.setPadding(0, 15, 0, 15);
-            row.setBackgroundResource(R.drawable.cell_shape);
+            final TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(0, 10, 0, 10);
+            row.setLayoutParams(layoutParams);
+            if (i % 2 == 0) {
+                row.setBackgroundResource(R.drawable.cell_shape);
+            } else {
+                row.setBackgroundResource(R.drawable.cell_shape_new);
+            }
             row.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -137,16 +143,18 @@ public class ListActivity extends Activity {
                 }
 
                 TextView tv = new TextView(this);
-                tv.setLayoutParams(new LayoutParams(0, LayoutParams.WRAP_CONTENT, weight));
+                tv.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, weight));
 
                 tv.setGravity(Gravity.CENTER);
                 tv.setTextSize(20);
                 if (j == 0) {
                     tv.setTextColor(Color.RED);
+                    tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
                 } else {
                     tv.setTextColor(Color.BLACK);
                 }
                 tv.setPadding(0, 10, 0, 10);
+                tv.setGravity(Gravity.CENTER);
 
                 Time time = new Time(Time.getCurrentTimezone());
                 time.setToNow();
@@ -158,7 +166,7 @@ public class ListActivity extends Activity {
                     date = c.getString(j).split("-");
 
                     month = time.month + 1 - Integer.valueOf(date[1]);
-                    year = time.year - Integer.valueOf(date[2]);
+                    year = time.year - Integer.valueOf(date[0]);
 
                     if (month < 0) {
                         year--;

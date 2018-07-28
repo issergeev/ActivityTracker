@@ -2,132 +2,144 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/standart_margin">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/headding"
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="30dp"
-        android:text="@string/input_data"
-        android:textSize="@dimen/headding_size"
-        android:textColor="@android:color/holo_red_dark"
-        android:gravity="center"/>
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/volume"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/headding">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/standart_margin">
 
-        <EditText
-            android:id="@+id/milkInput"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:inputType="number"
-            android:hint="Надой"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColor="@android:color/black"
-            android:background="@drawable/spinner_shape"/>
+            <TextView
+                android:id="@+id/headding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="30dp"
+                android:text="@string/input_data"
+                android:textSize="@dimen/headding_size"
+                android:textColor="@android:color/holo_red_dark"
+                android:gravity="center"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="wrap_content"
-            android:text="@string/litre"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_gravity="bottom"/>
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/volume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/headding">
 
-    <LinearLayout
-        android:id="@id/fat"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/volume">
+                <EditText
+                    android:id="@+id/milkInput"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:inputType="number"
+                    android:hint="Надой"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/spinner_shape"/>
 
-        <EditText
-            android:id="@+id/fatInput"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:inputType="number"
-            android:hint="Жирность"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColor="@android:color/black"
-            android:background="@drawable/spinner_shape"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/litre"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="bottom"/>
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="wrap_content"
-            android:text="@string/percent"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_gravity="bottom"/>
-    </LinearLayout>
+            <LinearLayout
+                android:id="@id/fat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/volume">
 
-    <LinearLayout
-        android:id="@+id/weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/fat">
+                <EditText
+                    android:id="@+id/fatInput"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:inputType="number"
+                    android:hint="Жирность"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/spinner_shape"/>
 
-        <EditText
-            android:id="@+id/weightInput"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:inputType="number"
-            android:hint="Вес"
-            android:textColorHint="@android:color/darker_gray"
-            android:textColor="@android:color/black"
-            android:background="@drawable/spinner_shape"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/percent"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="bottom"/>
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.2"
-            android:layout_height="wrap_content"
-            android:text="@string/kg"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_gravity="bottom"/>
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/fat">
 
-    <Button
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/weight"
-        android:text="@string/defaultDate"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/text_size"
-        android:background="@drawable/spinner_shape"/>
+                <EditText
+                    android:id="@+id/weightInput"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.8"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:inputType="number"
+                    android:hint="Вес"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/spinner_shape"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/kg"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="bottom"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weight"
+                android:text="@string/default_date"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size"
+                android:background="@drawable/spinner_shape"/>
+        </RelativeLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:padding="@dimen/standart_margin"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="@dimen/margin_start"
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:background="@drawable/save_button_shape"/>
@@ -136,7 +148,7 @@
             android:id="@+id/closeButton"
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/margin_start"
             android:layout_height="wrap_content"
             android:text="@string/close"
             android:background="@drawable/close_button_shape"/>

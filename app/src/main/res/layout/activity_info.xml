@@ -202,7 +202,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="match_parent"
-                    android:text="@string/birthDate"
+                    android:text="@string/birth_date"
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:textSize="@dimen/text_size"/>
@@ -212,7 +212,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
                     android:layout_height="wrap_content"
-                    android:text="@string/defaultDate"
+                    android:text="@string/default_date"
                     android:gravity="center"
                     android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size"
@@ -284,6 +284,17 @@
                     android:layout_height="200dp"
                     android:layout_below="@id/fat"/>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/delete_button"
+                android:layout_margin="@dimen/standart_margin"
+                android:layout_below="@id/weight"
+                android:textColor="@android:color/holo_red_dark"
+                android:background="@drawable/delete_button_shape"
+                android:visibility="gone"/>
 
         </RelativeLayout>
     </ScrollView>

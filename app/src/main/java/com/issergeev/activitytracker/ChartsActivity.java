@@ -58,10 +58,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveButton:
-                String milk = this.milk.getText().toString().trim();
-                String fat = this.fat.getText().toString().trim();
-                String weight = this.weight.getText().toString().trim();
-                if (milk.length() == 0 || fat.length() == 0 || weight.length() == 0) {
+                if (checkData() == 0){
                     AlertDialog.Builder alertDialog;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         alertDialog = new AlertDialog.Builder(ChartsActivity.this,
@@ -75,9 +72,29 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
                             .setCancelable(true)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-                } else {
+                }
+                if (checkData() == 1) {
+                    String milk = this.milk.getText().toString().trim();
+                    String fat = this.fat.getText().toString().trim();
+                    String weight = this.weight.getText().toString().trim();
                     new AddData().execute(intent.getStringExtra("id"), date.getText().toString(), milk, fat, weight);
                     finish();
+                }
+                if (checkData() == 2) {
+                    AlertDialog.Builder alertDialog;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        alertDialog = new AlertDialog.Builder(ChartsActivity.this,
+                                android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        alertDialog = new AlertDialog.Builder(ChartsActivity.this);
+                    }
+                    alertDialog.setTitle(R.string.error)
+                            .setMessage(getResources().getString(R.string.incorrect_date) +
+                                    " " + intent.getStringExtra("date"))
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setCancelable(true)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 }
                 break;
             case R.id.closeButton:
@@ -85,8 +102,18 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private int checkData() {
+        if (date.getText().toString().compareTo(intent.getStringExtra("date")) <= 0)
+            return 2;
+        if (Character.isDigit(date.getText().toString().charAt(0)) &&
+            milk.getText().toString().trim().length() > 0 &&
+            fat.getText().toString().trim().length() > 0 &&
+            weight.getText().toString().trim().length() > 0)
+            return 1;
+        return 0;
+    }
+
     private void showDatePickerDialog(final String currentDate) {
-        // here date is 5-12-2013
         DatePickerDialog datePickerDialog;
         DatePickerDialog.OnDateSetListener dateSetListener;
         if (Character.isDigit(currentDate.charAt(0))) {
