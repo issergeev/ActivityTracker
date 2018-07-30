@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 public class SQLDataWorker {
+    private final String WHERE_CLAUSE = DB.getCowId() + " = ?",
+                         WHERE_CLAUSE_DELETE = DB.getCowId() + " = ? AND " + DB.getDATE() + " = ?";
 
     private DB dbhelper;
     private SQLiteDatabase database;
@@ -37,7 +39,7 @@ public class SQLDataWorker {
         cv.put(DB.getMOTHER(), mother);
         cv.put(DB.getFATHER(), father);
 
-        database.delete(DB.getTableName(), DB.getCowId() + " = ?",
+        database.delete(DB.getTableName(), WHERE_CLAUSE,
                 new String[]{String.valueOf(cow_id)});
         database.insert(DB.getTableName(), null, cv);
     }
@@ -51,15 +53,15 @@ public class SQLDataWorker {
         cv.put(DB.getFAT(), fat);
         cv.put(DB.getWEIGHT(), weight);
 
-        database.delete(DB.getChartsTableName(), DB.getCowId() + " = ? AND " + DB.getDATE() + " = ?",
+        database.delete(DB.getChartsTableName(), WHERE_CLAUSE_DELETE,
                 new String[]{String.valueOf(cow_id), date});
         database.insert(DB.getChartsTableName(), null, cv);
     }
 
     public void deleteData(int cow_id) {
-        database.delete(DB.getTableName(), DB.getCowId() + " = ?",
+        database.delete(DB.getTableName(), WHERE_CLAUSE,
                 new String[]{String.valueOf(cow_id)});
-        database.delete(DB.getChartsTableName(), DB.getCowId() + " = ?",
+        database.delete(DB.getChartsTableName(), WHERE_CLAUSE,
                 new String[]{String.valueOf(cow_id)});
     }
 

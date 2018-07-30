@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +31,14 @@ import java.util.Calendar;
 
 
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener {
+    private final String ID = "id",
+                         TYPE = "type",
+                         PARENTS = "parents",
+                         DATE = "date",
+                         MOTHER = "mother",
+                         FATHER = "father",
+                         AGE = "age",
+                         COLOR = "color";
 
     private ArrayList<String> mothers;
     private ArrayList<String> fathers;
@@ -63,15 +70,14 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
             final String query = "SELECT * FROM charts_data WHERE cow_id = ? ORDER BY date ASC";
             Cursor cursor = database.rawQuery(query,
-                    new String[]{intent.getStringExtra("id")});
-            DataPoint[] datePoints = new DataPoint[cursor.getCount()];
+                    new String[]{intent.getStringExtra(ID)});
+
             DataPoint[] milkPoints = new DataPoint[cursor.getCount()];
             DataPoint[] fatPoints = new DataPoint[cursor.getCount()];
             DataPoint[] weightPoints = new DataPoint[cursor.getCount()];
 
             for (int i = 0; i < cursor.getCount(); i++) {
                 cursor.moveToNext();
-                String date = cursor.getString(cursor.getColumnIndex(DB.getDATE()));
                 float milk = cursor.getFloat(cursor.getColumnIndex(DB.getMILK()));
                 float fat = cursor.getFloat(cursor.getColumnIndex(DB.getFAT()));
                 float weight = cursor.getFloat(cursor.getColumnIndex(DB.getWEIGHT()));
@@ -145,26 +151,26 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         try {
-            motherAdapter.addAll(intent.getStringArrayListExtra("parents"));
-            fatherAdapter.addAll(intent.getStringArrayListExtra("parents"));
+            motherAdapter.addAll(intent.getStringArrayListExtra(PARENTS));
+            fatherAdapter.addAll(intent.getStringArrayListExtra(PARENTS));
         } catch (NullPointerException e) {
             Toast.makeText(getApplicationContext(), R.string.wrong_text, Toast.LENGTH_LONG).show();
         }
 
-        if (intent.hasExtra("type")) {
+        if (intent.hasExtra(TYPE)) {
             cow_id.setEnabled(false);
             deleteButton.setVisibility(View.VISIBLE);
             age.setEnabled(false);
 
-            cow_id.setText(intent.getStringExtra("id"));
-            spinner0.setSelection(typeAdapter.getPosition(intent.getStringExtra("type")));
-            spinner1.setSelection(colorAdapter.getPosition(intent.getStringExtra("color")));
-            spinner2.setSelection(motherAdapter.getPosition(intent.getStringExtra("mother")));
-            spinner3.setSelection(fatherAdapter.getPosition(intent.getStringExtra("father")));
-            age.setText(intent.getStringExtra("age"));
+            cow_id.setText(intent.getStringExtra(ID));
+            spinner0.setSelection(typeAdapter.getPosition(intent.getStringExtra(TYPE)));
+            spinner1.setSelection(colorAdapter.getPosition(intent.getStringExtra(COLOR)));
+            spinner2.setSelection(motherAdapter.getPosition(intent.getStringExtra(MOTHER)));
+            spinner3.setSelection(fatherAdapter.getPosition(intent.getStringExtra(FATHER)));
+            age.setText(intent.getStringExtra(AGE));
 
-            mothers.remove(mothers.indexOf(intent.getStringExtra("id")));
-            fathers.remove(fathers.indexOf(intent.getStringExtra("id")));
+            mothers.remove(mothers.indexOf(intent.getStringExtra(ID)));
+            fathers.remove(fathers.indexOf(intent.getStringExtra(ID)));
             motherAdapter.notifyDataSetChanged();
             fatherAdapter.notifyDataSetChanged();
         } else {
@@ -182,8 +188,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         deleteButton.setOnClickListener(this);
 
         final Intent chartsIntent = new Intent(this, ChartsActivity.class);
-        chartsIntent.putExtra("date", age.getText().toString());
-        chartsIntent.putExtra("id", intent.getStringExtra("id"));
+        chartsIntent.putExtra(DATE, age.getText().toString());
+        chartsIntent.putExtra(ID, intent.getStringExtra(ID));
         milk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,8 +304,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int checkData() {
-        if (new ArrayList<>(intent.getStringArrayListExtra("parents")).contains(cow_id.getText().toString()) &&
-                !intent.hasExtra("id"))
+        if (new ArrayList<>(intent.getStringArrayListExtra(PARENTS)).contains(cow_id.getText().toString()) &&
+                !intent.hasExtra(ID))
             return 2;
         if (cow_id.getText().toString().trim().length() > 0 &&
                 spinner0.getSelectedItemPosition() != 0 &&
@@ -312,6 +318,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private void showDatePickerDialog(final String currentDate) {
         DatePickerDialog datePickerDialog;
         DatePickerDialog.OnDateSetListener dateSetListener;
+
         if (Character.isDigit(currentDate.charAt(0))) {
             String[] split = currentDate.split("-");
             int day = Integer.valueOf(split[2]);

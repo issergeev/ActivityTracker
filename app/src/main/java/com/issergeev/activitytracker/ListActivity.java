@@ -20,6 +20,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ListActivity extends Activity {
+    private final String ID = "id",
+                         TYPE = "type",
+                         PARENTS = "parents",
+                         MOTHER = "mother",
+                         FATHER = "father",
+                         AGE = "age",
+                         COLOR = "color";
 
     private ArrayList<String> parents;
 
@@ -57,7 +64,7 @@ public class ListActivity extends Activity {
         floatingActionButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(startInfoActivityIntent1.putExtra("parents", parents));
+                startActivity(startInfoActivityIntent1.putExtra(PARENTS, parents));
             }
         });
     }
@@ -115,13 +122,13 @@ public class ListActivity extends Activity {
                     cursor.close();
 
                     startActivity(startInfoActivityIntent
-                            .putExtra("id", id)
-                            .putExtra("type", type)
-                            .putExtra("color", color)
-                            .putExtra("age", age)
-                            .putExtra("mother", mother)
-                            .putExtra("father", father)
-                            .putExtra("parents", parents));
+                            .putExtra(ID, id)
+                            .putExtra(TYPE, type)
+                            .putExtra(COLOR, color)
+                            .putExtra(AGE, age)
+                            .putExtra(MOTHER, mother)
+                            .putExtra(FATHER, father)
+                            .putExtra(PARENTS, parents));
                 }
             });
 

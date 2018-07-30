@@ -17,6 +17,8 @@ import android.widget.EditText;
 import java.util.Calendar;
 
 public class ChartsActivity extends AppCompatActivity implements View.OnClickListener {
+    private final String ID = "id",
+                         DATE = "date";
 
     private Button saveButton, closeButton;
     private EditText milk, fat, weight;
@@ -77,7 +79,8 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
                     String milk = this.milk.getText().toString().trim();
                     String fat = this.fat.getText().toString().trim();
                     String weight = this.weight.getText().toString().trim();
-                    new AddData().execute(intent.getStringExtra("id"), date.getText().toString(), milk, fat, weight);
+                    new AddData().execute(intent.getStringExtra(ID), date.getText().toString(),
+                            milk, fat, weight);
                     finish();
                 }
                 if (checkData() == 2) {
@@ -90,7 +93,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
                     }
                     alertDialog.setTitle(R.string.error)
                             .setMessage(getResources().getString(R.string.incorrect_date) +
-                                    " " + intent.getStringExtra("date"))
+                                    " " + intent.getStringExtra(DATE))
                             .setPositiveButton(android.R.string.yes, null)
                             .setCancelable(true)
                             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -103,7 +106,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private int checkData() {
-        if (date.getText().toString().compareTo(intent.getStringExtra("date")) <= 0)
+        if (date.getText().toString().compareTo(intent.getStringExtra(DATE)) <= 0)
             return 2;
         if (Character.isDigit(date.getText().toString().charAt(0)) &&
             milk.getText().toString().trim().length() > 0 &&

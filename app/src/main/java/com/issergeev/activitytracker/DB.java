@@ -24,18 +24,6 @@ public class DB extends SQLiteOpenHelper {
     private static final String DB_NAME = "ActivityTracker.DB";
     private static final int DB_VERSION = 1;
 
-    private static final String CREATE_TABLE = "create table " + TABLE_NAME
-            + "(" + COW_ID + " INTEGER PRIMARY KEY, "
-            + TYPE + " TEXT NOT NULL," + COLOR
-            + " TEXT NOT NULL," + AGE + " TEXT NOT NULL," + MOTHER + " TEXT," + FATHER + " TEXT);";
-    private static final String CREATE_TABLE_CHARTS = "create table " + CHARTS_TABLE_NAME
-            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + COW_ID + " INTEGER NOT NULL,"
-            + DATE + " TEXT NOT NULL,"
-            + MILK + " TEXT NOT NULL,"
-            + FAT + " TEXT NOT NULL,"
-            + WEIGHT + " TEXT NOT NULL);";
-
     public static String getMOTHER() {
         return MOTHER;
     }
@@ -91,6 +79,18 @@ public class DB extends SQLiteOpenHelper {
     public DB(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
+
+    private static final String CREATE_TABLE = "create table " + TABLE_NAME
+            + "(" + COW_ID + " INTEGER PRIMARY KEY, "
+            + TYPE + " TEXT NOT NULL," + COLOR
+            + " TEXT NOT NULL," + AGE + " TEXT NOT NULL," + MOTHER + " TEXT," + FATHER + " TEXT);";
+    private static final String CREATE_TABLE_CHARTS = "create table " + CHARTS_TABLE_NAME
+            + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + COW_ID + " INTEGER NOT NULL,"
+            + DATE + " TEXT NOT NULL,"
+            + MILK + " TEXT NOT NULL,"
+            + FAT + " TEXT NOT NULL,"
+            + WEIGHT + " TEXT NOT NULL);";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
