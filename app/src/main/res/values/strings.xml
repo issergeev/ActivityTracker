@@ -33,7 +33,11 @@
     <string name="delete_text">Подтвердите удаление. Будте внимательны, это действие не может быть отменено</string>
     <string name="attention">Внимание</string>
     <string name="id_exists">Животное с данным номером уже существует</string>
-    <string name="incorrect_date">Пожалуйста, укажите дату позже чем</string>
+    <string name="incorrect_date">Пожалуйста, укажите дату позже чем дата рождения коровы:</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 
     <string-array name="type_of_cows">
         <item>Выберите породу</item>

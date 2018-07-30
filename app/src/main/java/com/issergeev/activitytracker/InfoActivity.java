@@ -154,6 +154,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         if (intent.hasExtra("type")) {
             cow_id.setEnabled(false);
             deleteButton.setVisibility(View.VISIBLE);
+            age.setEnabled(false);
 
             cow_id.setText(intent.getStringExtra("id"));
             spinner0.setSelection(typeAdapter.getPosition(intent.getStringExtra("type")));
@@ -213,12 +214,12 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         }
         alertDialog.setTitle(R.string.quit)
                 .setMessage(R.string.quit_message)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
                 })
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(R.string.no, null)
                 .setCancelable(true)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
@@ -283,13 +284,13 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 alertDialog.setTitle(R.string.attention)
                         .setMessage(R.string.delete_text)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 new DeleteData().execute(cow_id.getText().toString());
                             }
                         })
-                        .setNegativeButton(android.R.string.no, null)
+                        .setNegativeButton(R.string.cancel, null)
                         .setCancelable(true)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
