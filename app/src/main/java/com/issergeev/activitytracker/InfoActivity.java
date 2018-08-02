@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -45,6 +47,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                          AGE = "age",
                          COLOR = "color";
 
+    //Preferences name
+    private final String PREFERENCES_NAME = "Settings";
+    private final String THICKNESS = "thickness";
+
     //Time to press the graphs
     private long milkTapTime = 0,
             fatTapTime = 0,
@@ -56,6 +62,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> fathers;
 
     private SQLDataWorker worker;
+
+    private SharedPreferences settings;
 
     private RelativeLayout parentLayout;
     private Spinner spinner0, spinner1, spinner2, spinner3;
@@ -76,7 +84,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
         return true;
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -104,6 +112,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             Cursor cursor = database.rawQuery(query,
                     new String[]{intent.getStringExtra(ID)});
 
+            settings = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
+
             DataPoint[] milkPoints = new DataPoint[cursor.getCount()];
             DataPoint[] fatPoints = new DataPoint[cursor.getCount()];
             DataPoint[] weightPoints = new DataPoint[cursor.getCount()];
@@ -126,11 +136,11 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             this.fat.addSeries(fatSeries);
             this.weight.addSeries(weightSeries);
 
-            milkSeries.setThickness(8);
+            milkSeries.setThickness(settings.getInt(THICKNESS, 8));
             milkSeries.setBackgroundColor(android.R.color.holo_blue_dark);
-            fatSeries.setThickness(8);
+            fatSeries.setThickness(settings.getInt(THICKNESS, 8));
             fatSeries.setBackgroundColor(android.R.color.holo_blue_dark);
-            weightSeries.setThickness(8);
+            weightSeries.setThickness(settings.getInt(THICKNESS, 8));
             weightSeries.setBackgroundColor(android.R.color.holo_blue_dark);
 
             cursor.close();
@@ -182,8 +192,6 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         spinner1.setAdapter(colorAdapter);
         spinner2.setAdapter(motherAdapter);
         spinner3.setAdapter(fatherAdapter);
-
-        spinner0.requestFocus();
 
         cow_id.addTextChangedListener(new TextWatcher() {
             @Override

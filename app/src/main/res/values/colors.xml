@@ -7,4 +7,5 @@
     <color name="saveButtonColor">#82ff54</color>
     <color name="saveButtonColorDisabled">#c6c6c6</color>
     <color name="background">#ffc5c5</color>
+    <color name="textColor">#595959</color>
 </resources>

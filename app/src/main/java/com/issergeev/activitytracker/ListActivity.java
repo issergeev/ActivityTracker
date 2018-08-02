@@ -1,7 +1,9 @@
 package com.issergeev.activitytracker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -28,9 +30,17 @@ public class ListActivity extends Activity {
                          AGE = "age",
                          COLOR = "color";
 
+    private final String PREFERENCES_NAME = "Settings";
+    private final String EXIT = "exit";
+
+    private long exitTime = 0l;
+    private final long pressTime = 1500l;
+
     private ArrayList<String> parents;
 
     private SQLDataWorker worker;
+
+    private SharedPreferences settings;
 
     private TableLayout table_layout;
     private FloatingActionButton floatingActionButton;
@@ -50,6 +60,8 @@ public class ListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        settings = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         parents = new ArrayList<>();
 
@@ -73,6 +85,20 @@ public class ListActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         worker.close();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (settings.getBoolean(EXIT, false)) {
+            if (exitTime >= System.currentTimeMillis()) {
+                super.onBackPressed();
+            } else {
+                exitTime = System.currentTimeMillis() + pressTime;
+                Toast.makeText(getApplicationContext(), "Для выхода нажмите кнопку \"Назад\" еще раз", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        } else
+            super.onBackPressed();
     }
 
     private void CreateTable() {

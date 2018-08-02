@@ -1,9 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:layout_alignParentTop="true"
+        android:text="Настройки"
+        android:gravity="center"
+        android:textSize="@dimen/heading_size"
+        android:textStyle="bold"
+        android:textColor="@android:color/holo_red_light"/>
+
+    <LinearLayout
+        android:id="@+id/thickness_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_below="@id/heading"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:text="ТОЛЩИНА ЛИНИЙ ГРАФИКОВ"
+            android:textSize="15sp"
+            android:textColor="@color/textColor"
+            android:textStyle="bold"/>
+
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/thickness"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginBottom="@dimen/standard_margin"
+            app:bsb_bubble_color="@android:color/holo_red_light"
+            app:bsb_track_color="@android:color/holo_red_dark"
+            app:bsb_bubble_text_color="@android:color/white"
+            app:bsb_bubble_text_size="@dimen/text_size"
+            app:bsb_section_text_size="15sp"
+            app:bsb_min="2"
+            app:bsb_max="20"
+            app:bsb_progress="2"
+            app:bsb_section_count="10"
+            app:bsb_show_progress_in_float="false"
+            app:bsb_section_text_position="bottom_sides"
+            app:bsb_show_section_mark="true"
+            app:bsb_show_section_text="true"
+            app:bsb_show_thumb_text="true"/>
+    </LinearLayout>
+
+    <Switch
+        android:id="@+id/exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/standard_margin"
+        android:layout_below="@id/thickness_picker"
+        android:layout_marginStart="@dimen/standard_margin"
+        android:layout_marginEnd="@dimen/standard_margin"
+        android:text="ПОДТВЕРЖДАТЬ ВЫХОД"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
+</RelativeLayout>
