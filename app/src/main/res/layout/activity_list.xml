@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_margin="@dimen/small_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background">
 
     <TableLayout
         android:id="@+id/tableLayout0"
@@ -33,7 +36,7 @@
                 android:text="@string/id"
                 android:gravity="center"
                 android:textSize="@dimen/text_size"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textColor="@android:color/black"/>
 
             <TextView
@@ -45,24 +48,24 @@
                 android:text="@string/type"
                 android:gravity="center"
                 android:textSize="@dimen/text_size"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/standard_margin"
                 android:layout_marginBottom="@dimen/standard_margin"
                 android:text="@string/color"
                 android:gravity="center"
                 android:textSize="@dimen/text_size"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="@dimen/tv_margin"
                 android:layout_marginTop="@dimen/standard_margin"
@@ -70,7 +73,7 @@
                 android:text="@string/age"
                 android:gravity="center"
                 android:textSize="@dimen/text_size"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 android:textColor="@android:color/black"/>
         </TableRow>
     </TableLayout>
@@ -96,7 +99,7 @@
         android:id="@+id/noAnimalsText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/headding"
+        android:layout_below="@id/heading"
         android:gravity="center"
         android:text="@string/no_animals_text"
         android:textStyle="italic"

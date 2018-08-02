@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SplashActivity"
             android:configChanges="keyboardHidden"
             android:theme="@style/LoadingTheme">
             <intent-filter>
@@ -18,12 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".InfoActivity"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ChartsActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ListActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".InfoActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ChartsActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

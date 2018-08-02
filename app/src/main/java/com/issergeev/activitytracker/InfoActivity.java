@@ -12,6 +12,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,8 +34,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener {
+    //DataBase constants
     private final String ID = "id",
                          TYPE = "type",
                          PARENTS = "parents",
@@ -40,6 +45,13 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                          AGE = "age",
                          COLOR = "color";
 
+    //Time to press the graphs
+    private long milkTapTime = 0,
+            fatTapTime = 0,
+            weightTapTime = 0;
+    private final long pressTime = 500;
+
+    //List of parents
     private ArrayList<String> mothers;
     private ArrayList<String> fathers;
 
@@ -58,6 +70,24 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog PD;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.settingsButton:
+                startActivity(new Intent(this, SettingsActivity.class));
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         try {
@@ -68,7 +98,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             this.fat.removeAllSeries();
             this.weight.removeAllSeries();
 
-            final String query = "SELECT * FROM charts_data WHERE cow_id = ? ORDER BY date ASC";
+            final String query = "SELECT * FROM " + DB.getChartsTableName() +
+                                 " WHERE " + DB.getCowId() + " = ? " +
+                                 "ORDER BY date(" + DB.getDATE()+ ") ASC";
             Cursor cursor = database.rawQuery(query,
                     new String[]{intent.getStringExtra(ID)});
 
@@ -81,6 +113,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 float milk = cursor.getFloat(cursor.getColumnIndex(DB.getMILK()));
                 float fat = cursor.getFloat(cursor.getColumnIndex(DB.getFAT()));
                 float weight = cursor.getFloat(cursor.getColumnIndex(DB.getWEIGHT()));
+
                 milkPoints[i] = new DataPoint(i, milk);
                 fatPoints[i] = new DataPoint(i, fat);
                 weightPoints[i] = new DataPoint(i, weight);
@@ -92,6 +125,13 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             this.milk.addSeries(milkSeries);
             this.fat.addSeries(fatSeries);
             this.weight.addSeries(weightSeries);
+
+            milkSeries.setThickness(8);
+            milkSeries.setBackgroundColor(android.R.color.holo_blue_dark);
+            fatSeries.setThickness(8);
+            fatSeries.setBackgroundColor(android.R.color.holo_blue_dark);
+            weightSeries.setThickness(8);
+            weightSeries.setBackgroundColor(android.R.color.holo_blue_dark);
 
             cursor.close();
         } catch (IllegalArgumentException e) {
@@ -143,9 +183,29 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         spinner2.setAdapter(motherAdapter);
         spinner3.setAdapter(fatherAdapter);
 
+        spinner0.requestFocus();
+
+        cow_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!saveButton.isEnabled() && intent.hasExtra("id") &&
+                        intent.getStringExtra("id").compareTo(cow_id.getText().toString()) == 0){}
+                    saveButton.setEnabled(true);
+            }
+        });
+
         age.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!saveButton.isEnabled())
+                    saveButton.setEnabled(true);
+
                 showDatePickerDialog(age.getText().toString());
             }
         });
@@ -158,9 +218,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (intent.hasExtra(TYPE)) {
-            cow_id.setEnabled(false);
             deleteButton.setVisibility(View.VISIBLE);
-            age.setEnabled(false);
 
             cow_id.setText(intent.getStringExtra(ID));
             spinner0.setSelection(typeAdapter.getPosition(intent.getStringExtra(TYPE)));
@@ -190,24 +248,38 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         final Intent chartsIntent = new Intent(this, ChartsActivity.class);
         chartsIntent.putExtra(DATE, age.getText().toString());
         chartsIntent.putExtra(ID, intent.getStringExtra(ID));
+
         milk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(chartsIntent);
+                if (System.currentTimeMillis() <= milkTapTime) {
+                    startActivity(chartsIntent);
+                } else
+                    milkTapTime = System.currentTimeMillis() + pressTime;
             }
         });
         fat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(chartsIntent);
+                if (System.currentTimeMillis() <= fatTapTime) {
+                    startActivity(chartsIntent);
+                } else
+                    fatTapTime = System.currentTimeMillis() + pressTime;
             }
         });
         weight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(chartsIntent);
+                if (System.currentTimeMillis() <= weightTapTime) {
+                    startActivity(chartsIntent);
+                } else
+                    weightTapTime = System.currentTimeMillis() + pressTime;
             }
         });
+
+        milk.getViewport().setScalable(true);
+        fat.getViewport().setScalable(true);
+        weight.getViewport().setScalable(true);
     }
 
     @Override
@@ -227,85 +299,27 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 })
                 .setNegativeButton(R.string.no, null)
                 .setCancelable(true)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
+                .setIcon(R.drawable.ic_action_block);
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.saveButton:
-                if (checkData() == 1) {
-                    String id = cow_id.getText().toString().trim();
-                    String type = spinner0.getSelectedItem().toString();
-                    String color = spinner1.getSelectedItem().toString();
-                    String age = this.age.getText().toString();
-                    String mother = spinner2.getSelectedItem().toString();
-                    String father = spinner3.getSelectedItem().toString();
-                    
-                    new AddData().execute(id, type, color, age, mother, father);
-                    finish();
-                }
-                if (checkData() == 2) {
-                    AlertDialog.Builder alertDialog;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
-                                android.R.style.Theme_Material_Dialog_Alert);
-                    } else {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
-                    }
-                    alertDialog.setTitle(R.string.error)
-                            .setMessage(R.string.id_exists)
-                            .setPositiveButton(android.R.string.yes, null)
-                            .setCancelable(true)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-                if(checkData() == 0) {
-                    AlertDialog.Builder alertDialog;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
-                                android.R.style.Theme_Material_Dialog_Alert);
-                    } else {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
-                    }
-                    alertDialog.setTitle(R.string.error)
-                            .setMessage(R.string.input_fields)
-                            .setPositiveButton(android.R.string.yes, null)
-                            .setCancelable(true)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-                break;
-            case R.id.closeButton:
-                finish();
-                break;
-            case R.id.deleteButton:
-                AlertDialog.Builder alertDialog;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    alertDialog = new AlertDialog.Builder(InfoActivity.this,
-                            android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    alertDialog = new AlertDialog.Builder(InfoActivity.this);
-                }
-                alertDialog.setTitle(R.string.attention)
-                        .setMessage(R.string.delete_text)
-                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new DeleteData().execute(cow_id.getText().toString());
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .setCancelable(true)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-        }
+        final AlertDialog dialog = alertDialog.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button deleteButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                Button cancelButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                deleteButton.setTextColor(getResources()
+                        .getColor(android.R.color.holo_red_light));
+                cancelButton.setTextColor(getResources()
+                        .getColor(android.R.color.holo_green_light));
+            }
+        });
+        dialog.show();
     }
 
     private int checkData() {
         if (new ArrayList<>(intent.getStringArrayListExtra(PARENTS)).contains(cow_id.getText().toString()) &&
-                !intent.hasExtra(ID))
+                intent.hasExtra(TYPE) && intent.getStringExtra(ID).compareTo(cow_id.getText().toString()) != 0)
             return 2;
         if (cow_id.getText().toString().trim().length() > 0 &&
                 spinner0.getSelectedItemPosition() != 0 &&
@@ -351,15 +365,123 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         datePickerDialog.show();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.saveButton:
+                final String id = cow_id.getText().toString().trim();
+                final String type = spinner0.getSelectedItem().toString();
+                final String color = spinner1.getSelectedItem().toString();
+                final String age = this.age.getText().toString();
+                final String mother = spinner2.getSelectedItem().toString();
+                final String father = spinner3.getSelectedItem().toString();
+
+                if (checkData() == 1) {
+                    if (intent.hasExtra(ID)) {
+                        final AlertDialog.Builder alertDialog;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                                    android.R.style.Theme_Material_Dialog_Alert);
+                        } else {
+                            alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                        }
+                        alertDialog.setTitle(R.string.attention)
+                                .setMessage(R.string.different_date)
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        new UpdateAnimal().execute(intent.getStringExtra(ID), id,
+                                                type, color, age, mother, father);
+                                    }
+                                })
+                                .setNegativeButton(R.string.no, null)
+                                .setCancelable(true)
+                                .setIcon(R.drawable.ic_action_block)
+                                .show();
+                    } else {
+                        new AddAnimal().execute(id, type, color, age, mother, father);
+                    }
+                }
+
+                if (checkData() == 2) {
+                    AlertDialog.Builder alertDialog;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                                android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                    }
+                    alertDialog.setTitle(R.string.error)
+                            .setMessage(R.string.id_exists)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setCancelable(true)
+                            .setIcon(R.drawable.ic_action_block)
+                            .show();
+                }
+
+                if(checkData() == 0) {
+                    AlertDialog.Builder alertDialog;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                                android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                    }
+                    alertDialog.setTitle(R.string.error)
+                            .setMessage(R.string.input_fields)
+                            .setPositiveButton(android.R.string.yes, null)
+                            .setCancelable(true)
+                            .setIcon(R.drawable.ic_action_block)
+                            .show();
+                }
+                break;
+            case R.id.closeButton:
+                finish();
+                break;
+            case R.id.deleteButton:
+                AlertDialog.Builder alertDialog;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                            android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                }
+                alertDialog.setTitle(R.string.attention)
+                        .setMessage(R.string.delete_text)
+                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new DeleteAnimal().execute(cow_id.getText().toString());
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, null)
+                        .setCancelable(true)
+                        .setIcon(R.drawable.ic_action_block);
+
+                final AlertDialog dialog = alertDialog.create();
+                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        Button deleteButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        Button cancelButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                        deleteButton.setTextColor(getResources()
+                                .getColor(android.R.color.holo_red_light));
+                        cancelButton.setTextColor(getResources()
+                                .getColor(android.R.color.holo_green_light));
+                    }
+                });
+                dialog.show();
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
-    private class AddData extends AsyncTask<String, Void, Void> {
+    private class AddAnimal extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {
 
             super.onPreExecute();
-
-            parentLayout.removeAllViews();
 
             PD = new ProgressDialog(InfoActivity.this);
             PD.setTitle(getString(R.string.wait));
@@ -371,7 +493,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(String... strings) {
             worker.open();
-            worker.insertData(Integer.valueOf(strings[0]), strings[1], strings[2], strings[3], strings[4], strings[5]);
+            worker.insertAnimal(strings[0], strings[1], strings[2], strings[3], strings[4], strings[5]);
 
             return null;
         }
@@ -380,11 +502,13 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             PD.dismiss();
+
+            finish();
         }
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class DeleteData extends AsyncTask<String, Void, Void> {
+    private class UpdateAnimal extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -401,7 +525,39 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(String... strings) {
             worker.open();
-            worker.deleteData(Integer.valueOf(strings[0]));
+            worker.updateAnimal(strings[0], strings[1], strings[2], strings[3], strings[4], strings[5], strings[6]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            PD.dismiss();
+
+            finish();
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class DeleteAnimal extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+
+            PD = new ProgressDialog(InfoActivity.this);
+            PD.setTitle(getString(R.string.wait));
+            PD.setMessage(getString(R.string.refreshing_data));
+            PD.setCancelable(false);
+            PD.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            worker.open();
+            worker.deleteAnimal(strings[0]);
 
             return null;
         }

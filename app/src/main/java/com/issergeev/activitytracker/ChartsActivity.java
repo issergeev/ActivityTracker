@@ -14,7 +14,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ChartsActivity extends AppCompatActivity implements View.OnClickListener {
     private final String ID = "id",
@@ -72,14 +77,14 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
                             .setMessage(R.string.input_fields)
                             .setPositiveButton(android.R.string.yes, null)
                             .setCancelable(true)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(R.drawable.ic_action_block)
                             .show();
                 }
                 if (checkData() == 1) {
                     String milk = this.milk.getText().toString().trim();
                     String fat = this.fat.getText().toString().trim();
                     String weight = this.weight.getText().toString().trim();
-                    new AddData().execute(intent.getStringExtra(ID), date.getText().toString(),
+                    new AddChartsData().execute(intent.getStringExtra(ID), date.getText().toString(),
                             milk, fat, weight);
                     finish();
                 }
@@ -96,7 +101,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
                                     " " + intent.getStringExtra(DATE))
                             .setPositiveButton(android.R.string.yes, null)
                             .setCancelable(true)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(R.drawable.ic_action_block)
                             .show();
                 }
                 break;
@@ -106,8 +111,19 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private int checkData() {
-        if (date.getText().toString().compareTo(intent.getStringExtra(DATE)) <= 0)
-            return 2;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date current_date = format.parse(this.date.getText().toString());
+            Date date = format.parse(intent.getStringExtra(DATE));
+
+            if (dateCompare(current_date, date)) {
+                return 2;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        if (this.date.getText().toString().compareTo(intent.getStringExtra(DATE)) <= 0)
+//            return 2;
         if (Character.isDigit(date.getText().toString().charAt(0)) &&
             milk.getText().toString().trim().length() > 0 &&
             fat.getText().toString().trim().length() > 0 &&
@@ -151,8 +167,12 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
             datePickerDialog.show();
     }
 
+    private static boolean dateCompare(Date date1, Date date2) {
+        return date1.before(date2) || date1.equals(date2);
+    }
+
     @SuppressLint("StaticFieldLeak")
-    private class AddData extends AsyncTask<String, Void, Void> {
+    private class AddChartsData extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -170,7 +190,7 @@ public class ChartsActivity extends AppCompatActivity implements View.OnClickLis
         protected Void doInBackground(String... strings) {
 
             worker.open();
-            worker.insertData(Integer.valueOf(strings[0]), strings[1], strings[2], strings[3], strings[4]);
+            worker.insertChartsData(strings[0], strings[1], strings[2], strings[3], strings[4]);
             return null;
         }
 

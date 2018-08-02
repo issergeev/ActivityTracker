@@ -34,6 +34,8 @@
     <string name="attention">Внимание</string>
     <string name="id_exists">Животное с данным номером уже существует</string>
     <string name="incorrect_date">Пожалуйста, укажите дату позже чем дата рождения коровы:</string>
+    <string name="different_date">Вы изменили дату рождения. В случае сохранения измененений
+        все данные диаграмм будут удалены. Это действие необратимо, вы хотите продолжить?</string>
     <string name="delete">Удалить</string>
     <string name="cancel">Отмена</string>
     <string name="yes">Да</string>

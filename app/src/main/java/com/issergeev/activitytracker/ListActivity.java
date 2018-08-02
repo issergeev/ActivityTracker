@@ -143,16 +143,28 @@ public class ListActivity extends Activity {
                         weight = 0.3f;
                         break;
                     case 2:
-                        weight = 0.3f;
+                        weight = 0.2f;
                         break;
                     case 3:
-                        weight = 0.2f;
+                        weight = 0.3f;
                 }
 
                 TextView tv = new TextView(this);
                 tv.setLayoutParams(new LayoutParams(0, LayoutParams.MATCH_PARENT, weight));
 
                 tv.setGravity(Gravity.CENTER);
+
+                switch (j) {
+                    case 1:
+                        tv.setTextSize(10);
+                        break;
+                    case 3:
+                        tv.setTextSize(10);
+                        break;
+                    default:
+                        tv.setTextSize(20);
+                }
+
                 tv.setTextSize(20);
                 if (j == 0) {
                     tv.setTextColor(Color.RED);
@@ -167,8 +179,8 @@ public class ListActivity extends Activity {
                 time.setToNow();
 
                 if (j == 3) {
-                    String[] date = new String[2];
-                    int month = 0, year = 0;
+                    String[] date;
+                    int month, year;
 
                     date = c.getString(j).split("-");
 
@@ -183,7 +195,7 @@ public class ListActivity extends Activity {
                         Toast.makeText(getApplicationContext(), R.string.incorrect_data, Toast.LENGTH_LONG).show();
                     }
 
-                    tv.setText(year + " лет " + month + " мес");
+                    tv.setText(year + " лет\n" + month + " мес");
                 } else {
                     tv.setText(c.getString(j));
                 }

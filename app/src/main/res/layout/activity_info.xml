@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/background">
 
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/buttons">
 
         <RelativeLayout
@@ -18,7 +20,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/headding"
+                android:id="@+id/heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -34,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:padding="@dimen/standard_margin"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/headding"
+                android:layout_below="@id/heading"
                 android:orientation="horizontal">
 
                 <TextView
@@ -58,6 +60,8 @@
                     android:textColorHint="@android:color/darker_gray"
                     android:textColor="@android:color/black"
                     android:hint="@string/id_number"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:gravity="center"
                     android:background="@drawable/spinner_shape"/>
             </LinearLayout>
@@ -232,13 +236,13 @@
                     android:layout_height="wrap_content"
                     android:text="График надоя"
                     android:textSize="@dimen/text_size"
-                    android:textColor="@android:color/holo_orange_light"/>
+                    android:textStyle="italic"
+                    android:textColor="@android:color/holo_orange_dark"/>
 
                 <com.jjoe64.graphview.GraphView
                     android:id="@+id/milkChart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_below="@id/agePicker"/>
+                    android:layout_height="200dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -254,13 +258,13 @@
                     android:layout_height="wrap_content"
                     android:text="График жирности"
                     android:textSize="@dimen/text_size"
-                    android:textColor="@android:color/holo_orange_light"/>
+                    android:textStyle="italic"
+                    android:textColor="@android:color/holo_orange_dark"/>
 
                 <com.jjoe64.graphview.GraphView
                     android:id="@+id/fatChart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_below="@id/milk"/>
+                    android:layout_height="200dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -276,13 +280,13 @@
                     android:layout_height="wrap_content"
                     android:text="График веса"
                     android:textSize="@dimen/text_size"
-                    android:textColor="@android:color/holo_orange_light"/>
+                    android:textStyle="italic"
+                    android:textColor="@android:color/holo_orange_dark"/>
 
                 <com.jjoe64.graphview.GraphView
                     android:id="@+id/weightChart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_below="@id/fat"/>
+                    android:layout_height="200dp"/>
             </LinearLayout>
 
             <Button
@@ -300,7 +304,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@id/buttons"
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -309,6 +313,7 @@
 
         <Button
             android:id="@+id/saveButton"
+            android:enabled="false"
             android:layout_width="0dp"
             android:layout_weight="0.5"
             android:layout_height="wrap_content"

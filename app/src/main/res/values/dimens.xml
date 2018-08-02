@@ -8,4 +8,5 @@
     <dimen name="corners_radius">4dp</dimen>
     <dimen name="average_margin">20dp</dimen>
     <dimen name="tv_margin">4dp</dimen>
+    <dimen name="small_margin">5dp</dimen>
 </resources>
