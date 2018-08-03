@@ -61,11 +61,24 @@
     </LinearLayout>
 
     <Switch
-        android:id="@+id/exit"
+        android:id="@+id/scrollGraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/standard_margin"
         android:layout_below="@id/thickness_picker"
+        android:layout_marginStart="@dimen/standard_margin"
+        android:layout_marginEnd="@dimen/standard_margin"
+        android:text="РАЗРЕШИТЬ ПРОКРУТКУ ГРАФИКА"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"/>
+
+    <Switch
+        android:id="@+id/exit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/standard_margin"
+        android:layout_below="@id/scrollGraph"
         android:layout_marginStart="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
         android:text="ПОДТВЕРЖДАТЬ ВЫХОД"

@@ -12,12 +12,13 @@ public class SettingsActivity extends AppCompatActivity {
     //SharedPreferences name
     private final String PREFERENCES_NAME = "Settings";
     private final String THICKNESS = "thickness",
+                         SCROLLING = "scrolling",
                          EXIT = "exit";
 
     private SharedPreferences settings;
 
     private BubbleSeekBar lineThickness;
-    private Switch confirmExit;
+    private Switch enableScrolling, confirmExit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +30,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Initialize variables
         lineThickness = findViewById(R.id.thickness);
+        enableScrolling = findViewById(R.id.scrollGraph);
         confirmExit = findViewById(R.id.exit);
 
         //Set values from preferences
         lineThickness.setProgress(settings.getInt(THICKNESS, 8));
+        enableScrolling.setChecked(settings.getBoolean(SCROLLING, false));
         confirmExit.setChecked(settings.getBoolean(EXIT, false));
     }
 
@@ -42,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(THICKNESS, lineThickness.getProgress());
+        editor.putBoolean(SCROLLING, enableScrolling.isChecked());
         editor.putBoolean(EXIT, confirmExit.isChecked());
         editor.apply();
     }

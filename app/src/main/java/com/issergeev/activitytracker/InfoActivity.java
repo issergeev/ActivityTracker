@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class InfoActivity extends AppCompatActivity implements View.OnClickListener {
+
     //DataBase constants
     private final String ID = "id",
                          TYPE = "type",
@@ -49,7 +50,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     //Preferences name
     private final String PREFERENCES_NAME = "Settings";
-    private final String THICKNESS = "thickness";
+    private final String THICKNESS = "thickness",
+                         SCROLLING = "scrolling";
 
     //Time to press the graphs
     private long milkTapTime = 0,
@@ -112,8 +114,6 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             Cursor cursor = database.rawQuery(query,
                     new String[]{intent.getStringExtra(ID)});
 
-            settings = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
-
             DataPoint[] milkPoints = new DataPoint[cursor.getCount()];
             DataPoint[] fatPoints = new DataPoint[cursor.getCount()];
             DataPoint[] weightPoints = new DataPoint[cursor.getCount()];
@@ -157,6 +157,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         intent = getIntent();
 
         worker = new SQLDataWorker(this);
+
+        settings = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
         spinner0 = findViewById(R.id.spinner0);
         spinner1 = findViewById(R.id.spinner1);
@@ -202,8 +204,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!saveButton.isEnabled() && intent.hasExtra("id") &&
-                        intent.getStringExtra("id").compareTo(cow_id.getText().toString()) == 0){}
+                if (!saveButton.isEnabled() && intent.hasExtra(ID) &&
+                        intent.getStringExtra(ID).compareTo(cow_id.getText().toString()) == 0){}
                     saveButton.setEnabled(true);
             }
         });
@@ -285,9 +287,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        milk.getViewport().setScalable(true);
-        fat.getViewport().setScalable(true);
-        weight.getViewport().setScalable(true);
+        milk.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
+        fat.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
+        weight.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
     }
 
     @Override

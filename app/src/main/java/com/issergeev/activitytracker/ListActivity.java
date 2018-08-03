@@ -94,7 +94,8 @@ public class ListActivity extends Activity {
                 super.onBackPressed();
             } else {
                 exitTime = System.currentTimeMillis() + pressTime;
-                Toast.makeText(getApplicationContext(), "Для выхода нажмите кнопку \"Назад\" еще раз", Toast.LENGTH_SHORT)
+                Toast.makeText(getApplicationContext(), R.string.exit_confirmation,
+                        Toast.LENGTH_SHORT)
                         .show();
             }
         } else
