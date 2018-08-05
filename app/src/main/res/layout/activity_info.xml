@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/background">
 
@@ -234,7 +235,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="График надоя"
+                    android:text="@string/milk_chart"
                     android:textSize="@dimen/text_size"
                     android:textStyle="italic"
                     android:textColor="@android:color/holo_orange_dark"/>
@@ -256,7 +257,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="График жирности"
+                    android:text="@string/fat_chart"
                     android:textSize="@dimen/text_size"
                     android:textStyle="italic"
                     android:textColor="@android:color/holo_orange_dark"/>
@@ -278,7 +279,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="График веса"
+                    android:text="@string/weight_chart"
                     android:textSize="@dimen/text_size"
                     android:textStyle="italic"
                     android:textColor="@android:color/holo_orange_dark"/>
@@ -293,13 +294,12 @@
                 android:id="@+id/deleteButton"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="@string/delete_button"
+                android:text="@string/delete_animal_button"
                 android:layout_margin="@dimen/standard_margin"
                 android:layout_below="@id/weight"
                 android:textColor="@android:color/holo_red_dark"
                 android:background="@drawable/delete_button_shape"
                 android:visibility="gone"/>
-
         </RelativeLayout>
     </ScrollView>
 
@@ -319,7 +319,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:text="@string/save"
-            android:background="@drawable/save_button_shape"/>
+            android:background="@drawable/save_button_shape"
+            tools:ignore="ButtonStyle" />
 
         <Button
             android:id="@+id/closeButton"
@@ -328,6 +329,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="@string/close"
-            android:background="@drawable/close_button_shape"/>
+            android:background="@drawable/close_button_shape"
+            tools:ignore="ButtonStyle" />
     </LinearLayout>
 </RelativeLayout>

@@ -22,6 +22,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ListActivity extends Activity {
+
+    //Database variables
     private final String ID = "id",
                          TYPE = "type",
                          PARENTS = "parents",
@@ -30,22 +32,27 @@ public class ListActivity extends Activity {
                          AGE = "age",
                          COLOR = "color";
 
+    //SharedPreferences constants
     private final String PREFERENCES_NAME = "Settings";
     private final String EXIT = "exit";
 
+    //Timeout
     private long exitTime = 0l;
     private final long pressTime = 1500l;
 
+    //List of parents
     private ArrayList<String> parents;
 
     private SQLDataWorker worker;
 
     private SharedPreferences settings;
 
+    //Interface variables
     private TableLayout table_layout;
     private FloatingActionButton floatingActionButton;
     private TextView noAnimalsText;
 
+    //Intents
     private Intent startInfoActivityIntent, startInfoActivityIntent1;
 
     @Override
@@ -66,9 +73,11 @@ public class ListActivity extends Activity {
         parents = new ArrayList<>();
 
         worker = new SQLDataWorker(this);
+
         startInfoActivityIntent = new Intent(this, InfoActivity.class);
         startInfoActivityIntent1 = new Intent(this, InfoActivity.class);
 
+        //Initializing interface variables
         table_layout = findViewById(R.id.tableLayout1);
         floatingActionButton = findViewById(R.id.fab);
         noAnimalsText = findViewById(R.id.noAnimalsText);
@@ -87,6 +96,7 @@ public class ListActivity extends Activity {
         worker.close();
     }
 
+    //Action to do when "Back" button pressed
     @Override
     public void onBackPressed() {
         if (settings.getBoolean(EXIT, false)) {
@@ -102,6 +112,7 @@ public class ListActivity extends Activity {
             super.onBackPressed();
     }
 
+    //Creating table with data from Database
     private void CreateTable() {
 
         worker.open();
@@ -120,6 +131,7 @@ public class ListActivity extends Activity {
             noAnimalsText.setVisibility(View.GONE);
         }
 
+        //Creating rows
         for (int i = 0; i < rows; i++) {
             final TableRow row = new TableRow(this);
             final TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT,
@@ -134,20 +146,23 @@ public class ListActivity extends Activity {
             row.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    final String query = "SELECT age, mother, father FROM " + DB.getTableName()
+                            + " WHERE " + DB.getCowId() + " = ?";
                     String id = ((TextView) ((TableRow) table_layout.getChildAt(table_layout.indexOfChild(v)))
                             .getChildAt(0)).getText().toString();
                     String type = ((TextView) ((TableRow) table_layout.getChildAt(table_layout.indexOfChild(v)))
                             .getChildAt(1)).getText().toString();
                     String color = ((TextView) ((TableRow) table_layout.getChildAt(table_layout.indexOfChild(v)))
                             .getChildAt(2)).getText().toString();
-                    String query0 = "SELECT age, mother, father FROM " + DB.getTableName() + " WHERE " + DB.getCowId() + " = ?";
-                    Cursor cursor = worker.getDatabase().rawQuery(query0, new String[] {id});
+
+                    Cursor cursor = worker.getDatabase().rawQuery(query, new String[] {id});
                     cursor.moveToFirst();
                     String mother = cursor.getString(cursor.getColumnIndex(DB.getMOTHER()));
                     String father = cursor.getString(cursor.getColumnIndex(DB.getFATHER()));
                     String age = cursor.getString(cursor.getColumnIndex(DB.getAGE()));
                     cursor.close();
 
+                    //Starting Info Activity with Extras
                     startActivity(startInfoActivityIntent
                             .putExtra(ID, id)
                             .putExtra(TYPE, type)
@@ -159,6 +174,7 @@ public class ListActivity extends Activity {
                 }
             });
 
+            //Creating columns
             for (int j = 0; j < cols; j++) {
                 float weight = 0f;
                 switch (j) {
@@ -181,6 +197,7 @@ public class ListActivity extends Activity {
 
                 tv.setGravity(Gravity.CENTER);
 
+                //Setting different text size for columns
                 switch (j) {
                     case 1:
                         tv.setTextSize(10);
@@ -193,12 +210,15 @@ public class ListActivity extends Activity {
                 }
 
                 tv.setTextSize(20);
+
+                //Setting different color for first column to highlight it
                 if (j == 0) {
                     tv.setTextColor(Color.RED);
                     tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
                 } else {
                     tv.setTextColor(Color.BLACK);
                 }
+
                 tv.setPadding(0, 10, 0, 10);
                 tv.setGravity(Gravity.CENTER);
 

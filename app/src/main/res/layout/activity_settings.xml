@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/standard_margin"
         android:layout_alignParentTop="true"
-        android:text="Настройки"
+        android:text="@string/settings"
         android:gravity="center"
         android:textSize="@dimen/heading_size"
         android:textStyle="bold"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/standard_margin"
-            android:text="ТОЛЩИНА ЛИНИЙ ГРАФИКОВ"
+            android:text="@string/charts_stroke_thickness"
             android:textSize="15sp"
             android:textColor="@color/textColor"
             android:textStyle="bold"/>
@@ -68,7 +68,7 @@
         android:layout_below="@id/thickness_picker"
         android:layout_marginStart="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
-        android:text="РАЗРЕШИТЬ ПРОКРУТКУ ГРАФИКА"
+        android:text="@string/charts_scrolling"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/textColor"/>
@@ -81,7 +81,7 @@
         android:layout_below="@id/scrollGraph"
         android:layout_marginStart="@dimen/standard_margin"
         android:layout_marginEnd="@dimen/standard_margin"
-        android:text="ПОДТВЕРЖДАТЬ ВЫХОД"
+        android:text="@string/confirm_exit"
         android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@color/textColor"/>

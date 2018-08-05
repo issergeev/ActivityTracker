@@ -20,12 +20,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,22 +36,22 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class InfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class InfoActivity extends AppCompatActivity {
 
     //DataBase constants
     private final String ID = "id",
-                         TYPE = "type",
-                         PARENTS = "parents",
-                         DATE = "date",
-                         MOTHER = "mother",
-                         FATHER = "father",
-                         AGE = "age",
-                         COLOR = "color";
+            TYPE = "type",
+            PARENTS = "parents",
+            DATE = "date",
+            MOTHER = "mother",
+            FATHER = "father",
+            AGE = "age",
+            COLOR = "color";
 
     //Preferences name
     private final String PREFERENCES_NAME = "Settings";
     private final String THICKNESS = "thickness",
-                         SCROLLING = "scrolling";
+            SCROLLING = "scrolling";
 
     //Time to press the graphs
     private long milkTapTime = 0,
@@ -64,10 +64,10 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<String> fathers;
 
     private SQLDataWorker worker;
+    private Listener listener;
 
     private SharedPreferences settings;
 
-    private RelativeLayout parentLayout;
     private Spinner spinner0, spinner1, spinner2, spinner3;
     private EditText cow_id;
     private Button age;
@@ -79,6 +79,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     private Intent intent;
     private ProgressDialog PD;
 
+    //Creating Options Menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -86,7 +87,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
         return true;
     }
-
+    //Events on Options Menu buttons pressed
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -100,24 +101,28 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-            DB db = new DB(this);
-            SQLiteDatabase database = db.getReadableDatabase();
 
+        try {
             this.milk.removeAllSeries();
             this.fat.removeAllSeries();
             this.weight.removeAllSeries();
 
+            DB db = new DB(this);
+            SQLiteDatabase database = db.getReadableDatabase();
+
             final String query = "SELECT * FROM " + DB.getChartsTableName() +
-                                 " WHERE " + DB.getCowId() + " = ? " +
-                                 "ORDER BY date(" + DB.getDATE()+ ") ASC";
+                    " WHERE " + DB.getCowId() + " = ? " +
+                    "ORDER BY date(" + DB.getDATE() + ") ASC";
+
             Cursor cursor = database.rawQuery(query,
                     new String[]{intent.getStringExtra(ID)});
 
+            //Creating DataPoints to draw through
             DataPoint[] milkPoints = new DataPoint[cursor.getCount()];
             DataPoint[] fatPoints = new DataPoint[cursor.getCount()];
             DataPoint[] weightPoints = new DataPoint[cursor.getCount()];
 
+            //Filling DataPoints
             for (int i = 0; i < cursor.getCount(); i++) {
                 cursor.moveToNext();
                 float milk = cursor.getFloat(cursor.getColumnIndex(DB.getMILK()));
@@ -129,6 +134,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
                 weightPoints[i] = new DataPoint(i, weight);
             }
 
+            //Drawing Graphs
             LineGraphSeries<DataPoint> milkSeries = new LineGraphSeries<>(milkPoints);
             LineGraphSeries<DataPoint> fatSeries = new LineGraphSeries<>(fatPoints);
             LineGraphSeries<DataPoint> weightSeries = new LineGraphSeries<>(weightPoints);
@@ -136,6 +142,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             this.fat.addSeries(fatSeries);
             this.weight.addSeries(weightSeries);
 
+            //Setting params on Charts
             milkSeries.setThickness(settings.getInt(THICKNESS, 8));
             milkSeries.setBackgroundColor(android.R.color.holo_blue_dark);
             fatSeries.setThickness(settings.getInt(THICKNESS, 8));
@@ -154,12 +161,21 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
 
+        //Getting the Intent
         intent = getIntent();
 
+        //Initializing classes
         worker = new SQLDataWorker(this);
+        listener = new Listener();
 
+        //Array of parents
+        mothers = new ArrayList<>();
+        fathers = new ArrayList<>();
+
+        //Getting SharedPreferences
         settings = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
+        //Initializing variables
         spinner0 = findViewById(R.id.spinner0);
         spinner1 = findViewById(R.id.spinner1);
         spinner2 = findViewById(R.id.spinner2);
@@ -169,14 +185,11 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         saveButton = findViewById(R.id.saveButton);
         closeButton = findViewById(R.id.closeButton);
         deleteButton = findViewById(R.id.deleteButton);
-        parentLayout = findViewById(R.id.parentLayout);
         milk = findViewById(R.id.milkChart);
         fat = findViewById(R.id.fatChart);
         weight = findViewById(R.id.weightChart);
 
-        mothers = new ArrayList<>();
-        fathers = new ArrayList<>();
-
+        //Setting adapters
         typeAdapter = new ArrayAdapter<>(getApplicationContext(),
                 R.layout.spinner_text_layout, getResources().getStringArray(R.array.type_of_cows));
         colorAdapter = new ArrayAdapter<>(getApplicationContext(),
@@ -189,37 +202,12 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         colorAdapter.setDropDownViewResource(R.layout.spinner_adapter);
         motherAdapter.setDropDownViewResource(R.layout.spinner_adapter);
         fatherAdapter.setDropDownViewResource(R.layout.spinner_adapter);
-
         spinner0.setAdapter(typeAdapter);
         spinner1.setAdapter(colorAdapter);
         spinner2.setAdapter(motherAdapter);
         spinner3.setAdapter(fatherAdapter);
 
-        cow_id.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (!saveButton.isEnabled() && intent.hasExtra(ID) &&
-                        intent.getStringExtra(ID).compareTo(cow_id.getText().toString()) == 0){}
-                    saveButton.setEnabled(true);
-            }
-        });
-
-        age.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!saveButton.isEnabled())
-                    saveButton.setEnabled(true);
-
-                showDatePickerDialog(age.getText().toString());
-            }
-        });
-
+        //Filling parents list
         try {
             motherAdapter.addAll(intent.getStringArrayListExtra(PARENTS));
             fatherAdapter.addAll(intent.getStringArrayListExtra(PARENTS));
@@ -227,7 +215,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(getApplicationContext(), R.string.wrong_text, Toast.LENGTH_LONG).show();
         }
 
-        if (intent.hasExtra(TYPE)) {
+        //Setting fields
+        if (intent.hasExtra(ID)) {
             deleteButton.setVisibility(View.VISIBLE);
 
             cow_id.setText(intent.getStringExtra(ID));
@@ -251,14 +240,23 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             weightLayout.setVisibility(View.GONE);
         }
 
-        saveButton.setOnClickListener(this);
-        closeButton.setOnClickListener(this);
-        deleteButton.setOnClickListener(this);
+        //Setting Listeners
+        saveButton.setOnClickListener(listener);
+        closeButton.setOnClickListener(listener);
+        deleteButton.setOnClickListener(listener);
+        age.setOnClickListener(listener);
 
+        cow_id.addTextChangedListener(listener);
+        spinner0.setOnItemSelectedListener(listener);
+        spinner1.setOnItemSelectedListener(listener);
+        age.addTextChangedListener(listener);
+
+        //Creating an intent to start Charts Activity
         final Intent chartsIntent = new Intent(this, ChartsActivity.class);
         chartsIntent.putExtra(DATE, age.getText().toString());
         chartsIntent.putExtra(ID, intent.getStringExtra(ID));
 
+        //Setting timeout to start Charts Activity
         milk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -287,6 +285,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        //Setting scrolling to Charts
         milk.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
         fat.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
         weight.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
@@ -294,6 +293,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
+        //Building AlertDialog
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             alertDialog = new AlertDialog.Builder(InfoActivity.this,
                     android.R.style.Theme_Material_Dialog_Alert);
@@ -327,166 +327,9 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
         dialog.show();
     }
 
-    private int checkData() {
-        if (new ArrayList<>(intent.getStringArrayListExtra(PARENTS)).contains(cow_id.getText().toString()) &&
-                intent.hasExtra(TYPE) && intent.getStringExtra(ID).compareTo(cow_id.getText().toString()) != 0)
-            return 2;
-        if (cow_id.getText().toString().trim().length() > 0 &&
-                spinner0.getSelectedItemPosition() != 0 &&
-                spinner1.getSelectedItemPosition() != 0 &&
-                Character.isDigit(age.getText().charAt(0)))
-            return 1;
-        return 0;
-    }
-
-    private void showDatePickerDialog(final String currentDate) {
-        DatePickerDialog datePickerDialog;
-        DatePickerDialog.OnDateSetListener dateSetListener;
-
-        if (Character.isDigit(currentDate.charAt(0))) {
-            String[] split = currentDate.split("-");
-            int day = Integer.valueOf(split[2]);
-            final int month = Integer.valueOf(split[1]) - 1;
-            int year = Integer.valueOf(split[0]);
-
-            dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                      int dayOfMonth) {
-                    age.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                }
-            };
-
-            datePickerDialog = new DatePickerDialog(this,
-                    dateSetListener, year, month, day);
-        } else {
-            dateSetListener = new DatePickerDialog.OnDateSetListener() {
-
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                      int dayOfMonth) {
-                    age.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
-                }
-            };
-            datePickerDialog = new DatePickerDialog(this, dateSetListener,
-                    Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
-        }
-        datePickerDialog.show();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.saveButton:
-                final String id = cow_id.getText().toString().trim();
-                final String type = spinner0.getSelectedItem().toString();
-                final String color = spinner1.getSelectedItem().toString();
-                final String age = this.age.getText().toString();
-                final String mother = spinner2.getSelectedItem().toString();
-                final String father = spinner3.getSelectedItem().toString();
-
-                if (checkData() == 1) {
-                    if (intent.hasExtra(ID)) {
-                        final AlertDialog.Builder alertDialog;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            alertDialog = new AlertDialog.Builder(InfoActivity.this,
-                                    android.R.style.Theme_Material_Dialog_Alert);
-                        } else {
-                            alertDialog = new AlertDialog.Builder(InfoActivity.this);
-                        }
-                        alertDialog.setTitle(R.string.attention)
-                                .setMessage(R.string.different_date)
-                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        new UpdateAnimal().execute(intent.getStringExtra(ID), id,
-                                                type, color, age, mother, father);
-                                    }
-                                })
-                                .setNegativeButton(R.string.no, null)
-                                .setCancelable(true)
-                                .setIcon(R.drawable.ic_action_block)
-                                .show();
-                    } else {
-                        new AddAnimal().execute(id, type, color, age, mother, father);
-                    }
-                }
-
-                if (checkData() == 2) {
-                    AlertDialog.Builder alertDialog;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
-                                android.R.style.Theme_Material_Dialog_Alert);
-                    } else {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
-                    }
-                    alertDialog.setTitle(R.string.error)
-                            .setMessage(R.string.id_exists)
-                            .setPositiveButton(android.R.string.yes, null)
-                            .setCancelable(true)
-                            .setIcon(R.drawable.ic_action_block)
-                            .show();
-                }
-
-                if(checkData() == 0) {
-                    AlertDialog.Builder alertDialog;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
-                                android.R.style.Theme_Material_Dialog_Alert);
-                    } else {
-                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
-                    }
-                    alertDialog.setTitle(R.string.error)
-                            .setMessage(R.string.input_fields)
-                            .setPositiveButton(android.R.string.yes, null)
-                            .setCancelable(true)
-                            .setIcon(R.drawable.ic_action_block)
-                            .show();
-                }
-                break;
-            case R.id.closeButton:
-                finish();
-                break;
-            case R.id.deleteButton:
-                AlertDialog.Builder alertDialog;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    alertDialog = new AlertDialog.Builder(InfoActivity.this,
-                            android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    alertDialog = new AlertDialog.Builder(InfoActivity.this);
-                }
-                alertDialog.setTitle(R.string.attention)
-                        .setMessage(R.string.delete_text)
-                        .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new DeleteAnimal().execute(cow_id.getText().toString());
-                            }
-                        })
-                        .setNegativeButton(R.string.cancel, null)
-                        .setCancelable(true)
-                        .setIcon(R.drawable.ic_action_block);
-
-                final AlertDialog dialog = alertDialog.create();
-                dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialogInterface) {
-                        Button deleteButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                        Button cancelButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-
-                        deleteButton.setTextColor(getResources()
-                                .getColor(android.R.color.holo_red_light));
-                        cancelButton.setTextColor(getResources()
-                                .getColor(android.R.color.holo_green_light));
-                    }
-                });
-                dialog.show();
-        }
-    }
-
+    //AsyncTasks to perform functions
     @SuppressLint("StaticFieldLeak")
-    private class AddAnimal extends AsyncTask<String, Void, Void> {
+    protected class AddAnimal extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -516,9 +359,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
     }
-
     @SuppressLint("StaticFieldLeak")
-    private class UpdateAnimal extends AsyncTask<String, Void, Void> {
+    protected class UpdateAnimal extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -548,9 +390,8 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
     }
-
     @SuppressLint("StaticFieldLeak")
-    private class DeleteAnimal extends AsyncTask<String, Void, Void> {
+    protected class DeleteAnimal extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -579,5 +420,247 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
 
             finish();
         }
+    }
+    @SuppressLint("StaticFieldLeak")
+    protected class UpdateAnimalWithoutCharts extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            worker.open();
+            worker.deleteChartsData(strings[0]);
+            worker.updateAnimal(strings[0], strings[1], strings[2], strings[3], strings[4], strings[5], strings[6]);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+
+            finish();
+        }
+    }
+
+    //Class to listen events
+    private class Listener implements View.OnClickListener, TextWatcher, AdapterView.OnItemSelectedListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.saveButton:
+                    final String id = cow_id.getText().toString().trim();
+                    final String type = spinner0.getSelectedItem().toString();
+                    final String color = spinner1.getSelectedItem().toString();
+                    final String animalAge = age.getText().toString();
+                    final String mother = spinner2.getSelectedItem().toString();
+                    final String father = spinner3.getSelectedItem().toString();
+
+                    if (checkData()) {
+                        if (intent.hasExtra(AGE) &&
+                                intent.getStringExtra(AGE).compareTo(age.getText().toString()) != 0) {
+                            final AlertDialog.Builder alertDialog;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                                        android.R.style.Theme_Material_Dialog_Alert);
+                            } else {
+                                alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                            }
+                            alertDialog.setTitle(R.string.attention)
+                                    .setMessage(R.string.different_date)
+                                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            new UpdateAnimalWithoutCharts().execute(intent.getStringExtra(ID), id,
+                                                    type, color, animalAge, mother, father);
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.no, null)
+                                    .setCancelable(true)
+                                    .setIcon(R.drawable.ic_action_block);
+
+                            final AlertDialog dialog = alertDialog.create();
+                            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                                @Override
+                                public void onShow(DialogInterface dialogInterface) {
+                                    Button deleteButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                                    Button cancelButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                                    deleteButton.setTextColor(getResources()
+                                            .getColor(android.R.color.holo_red_light));
+                                    cancelButton.setTextColor(getResources()
+                                            .getColor(android.R.color.holo_green_light));
+                                }
+                            });
+                            dialog.show();
+                        }
+                        if (intent.hasExtra(ID)) {
+                            new UpdateAnimal().execute(intent.getStringExtra(ID), id, type, color, animalAge, mother, father);
+                        } else
+                            new AddAnimal().execute(id, type, color, animalAge, mother, father);
+                    }
+
+                    if (!checkData()) {
+                        AlertDialog.Builder alertDialog;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                                    android.R.style.Theme_Material_Dialog_Alert);
+                        } else {
+                            alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                        }
+                        alertDialog.setTitle(R.string.error)
+                                .setMessage(R.string.id_exists)
+                                .setPositiveButton(android.R.string.yes, null)
+                                .setCancelable(true)
+                                .setIcon(R.drawable.ic_action_block)
+                                .show();
+                    }
+                    break;
+                case R.id.closeButton:
+                    finish();
+                    break;
+                case R.id.deleteButton:
+                    AlertDialog.Builder alertDialog;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this,
+                                android.R.style.Theme_Material_Dialog_Alert);
+                    } else {
+                        alertDialog = new AlertDialog.Builder(InfoActivity.this);
+                    }
+                    alertDialog.setTitle(R.string.attention)
+                            .setMessage(R.string.delete_text)
+                            .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new DeleteAnimal().execute(cow_id.getText().toString());
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, null)
+                            .setCancelable(true)
+                            .setIcon(R.drawable.ic_action_block);
+
+                    final AlertDialog dialog = alertDialog.create();
+                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialogInterface) {
+                            Button deleteButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                            Button cancelButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                            deleteButton.setTextColor(getResources()
+                                    .getColor(android.R.color.holo_red_light));
+                            cancelButton.setTextColor(getResources()
+                                    .getColor(android.R.color.holo_green_light));
+                        }
+                    });
+                    dialog.show();
+                    break;
+                case R.id.age:
+                    showDatePickerDialog(age.getText().toString());
+            }
+        }
+
+        //Validating data on selected item change
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (cow_id.getText().toString().trim().length() > 0 &&
+                    spinner0.getSelectedItemPosition() != 0 &&
+                    spinner1.getSelectedItemPosition() != 0 &&
+                    age.getText().toString().compareTo(getResources().getString(R.string.default_date)) != 0 &&
+                    !saveButton.isEnabled())
+                saveButton.setEnabled(true);
+
+            if ((cow_id.getText().toString().trim().length() == 0 ||
+                    spinner0.getSelectedItemPosition() == 0 ||
+                    spinner1.getSelectedItemPosition() == 0 ||
+                    age.getText().toString().compareTo(getResources().getString(R.string.default_date)) == 0) &&
+                    saveButton.isEnabled())
+                saveButton.setEnabled(false);
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {}
+        @Override
+
+        //Setting TextWatcher
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (cow_id.getText().toString().trim().length() > 0 &&
+                    spinner0.getSelectedItemPosition() != 0 &&
+                    spinner1.getSelectedItemPosition() != 0 &&
+                    age.getText().toString().compareTo(getResources().getString(R.string.default_date)) != 0 &&
+                    !saveButton.isEnabled())
+                saveButton.setEnabled(true);
+
+            if ((cow_id.getText().toString().trim().length() == 0 ||
+                    spinner0.getSelectedItemPosition() == 0 ||
+                    spinner1.getSelectedItemPosition() == 0 ||
+                    age.getText().toString().compareTo(getResources().getString(R.string.default_date)) == 0) &&
+                    saveButton.isEnabled())
+                saveButton.setEnabled(false);
+        }
+    }
+
+    //Function to check data
+    private boolean checkData() {
+        if (new ArrayList<>(intent.getStringArrayListExtra(PARENTS)).contains(cow_id.getText().toString()) &&
+                intent.hasExtra(TYPE) && intent.getStringExtra(ID).compareTo(cow_id.getText().toString()) != 0)
+            return false;
+
+        return true;
+    }
+
+    //Display a DatePickerDialog
+    protected void showDatePickerDialog(final String currentDate) {
+        DatePickerDialog datePickerDialog;
+        DatePickerDialog.OnDateSetListener dateSetListener;
+
+        if (Character.isDigit(currentDate.charAt(0))) {
+            String[] split = currentDate.split("-");
+            int day = Integer.valueOf(split[2]);
+            final int month = Integer.valueOf(split[1]) - 1;
+            int year = Integer.valueOf(split[0]);
+
+            dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                      int dayOfMonth) {
+                    age.setText(new StringBuilder().append(year)
+                            .append("-")
+                            .append(monthOfYear + 1)
+                            .append("-")
+                            .append(dayOfMonth)
+                            .toString());
+                }
+            };
+
+            datePickerDialog = new DatePickerDialog(this,
+                    dateSetListener, year, month, day);
+        } else {
+            dateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                      int dayOfMonth) {
+                    age.setText(new StringBuilder().append(year)
+                            .append("-")
+                            .append(monthOfYear + 1)
+                            .append("-")
+                            .append(dayOfMonth)
+                            .toString());
+                }
+            };
+            datePickerDialog = new DatePickerDialog(this, dateSetListener,
+                    Calendar.getInstance().get(Calendar.YEAR),
+                    Calendar.getInstance().get(Calendar.MONTH),
+                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        }
+
+        datePickerDialog.show();
     }
 }

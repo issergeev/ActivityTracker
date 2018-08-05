@@ -43,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
+        //Getting Editor and putting data
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt(THICKNESS, lineThickness.getProgress());
         editor.putBoolean(SCROLLING, enableScrolling.isChecked());

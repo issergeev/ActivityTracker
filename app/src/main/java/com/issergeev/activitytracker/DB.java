@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DB extends SQLiteOpenHelper {
 
+    //Tables column names
     private static final String TABLE_NAME = "cows";
     private static final String COW_ID = "cow_id";
     private static final String TYPE = "type";
@@ -21,9 +22,11 @@ public class DB extends SQLiteOpenHelper {
     private static final String FAT = "fat";
     private static final String WEIGHT = "weight";
 
+    //Caption and Database version
     private static final String DB_NAME = "ActivityTracker.DB";
     private static final int DB_VERSION = 1;
 
+    //Getters
     public static String getMOTHER() {
         return MOTHER;
     }
@@ -76,10 +79,12 @@ public class DB extends SQLiteOpenHelper {
         return TABLE_NAME;
     }
 
+    //Constructor
     public DB(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
+    //Creating Tables
     private static final String CREATE_TABLE = "create table " + TABLE_NAME
             + "(" + COW_ID + " INTEGER PRIMARY KEY, "
             + TYPE + " TEXT NOT NULL," + COLOR
@@ -98,6 +103,7 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_CHARTS);
     }
 
+    //Updating Tables
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);

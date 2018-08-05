@@ -12,7 +12,7 @@
     <string name="save">Сохранить</string>
     <string name="close">Закрыть</string>
     <string name="input_data">Ввод данных</string>
-    <string name="volume">Надой</string>
+    <string name="milk">Надой</string>
     <string name="fat">Жирность</string>
     <string name="weight">Масса</string>
     <string name="birth_date">Дата рождения:</string>
@@ -41,6 +41,15 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="exit_confirmation">Для выхода нажмите кнопку \"Назад\" еще раз</string>
+    <string name="delete_animal_button">Удалить животное</string>
+    <string name="date">yyyy-MM-dd</string>
+    <string name="milk_chart">График надоя</string>
+    <string name="fat_chart">График жирности</string>
+    <string name="weight_chart">График веса</string>
+    <string name="settings">Настройки</string>
+    <string name="charts_stroke_thickness">ТОЛЩИНА ЛИНИЙ ГРАФИКОВ</string>
+    <string name="charts_scrolling">РАЗРЕШИТЬ ПРОКРУТКУ ГРАФИКА</string>
+    <string name="confirm_exit">ПОДТВЕРЖДАТЬ ВЫХОД</string>
 
     <string-array name="type_of_cows">
         <item>Выберите породу</item>
