@@ -48,7 +48,8 @@ public class SettingsActivity extends AppCompatActivity {
         enableScrolling.setChecked(settings.getBoolean(SCROLLING, false));
         confirmExit.setChecked(settings.getBoolean(EXIT, false));
 
-        chartsColor.setBackgroundColor(settings.getInt(CHARTS_COLOR, android.R.color.holo_blue_dark));
+        chartsColor.setBackgroundColor(settings.getInt(CHARTS_COLOR,
+                getResources().getColor(android.R.color.holo_blue_dark)));
 
         chartsColor.setOnClickListener(new View.OnClickListener() {
             @Override

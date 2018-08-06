@@ -147,7 +147,8 @@ public class InfoActivity extends AppCompatActivity {
             weight.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
 
             final Paint paint = new Paint();
-            paint.setColor(settings.getInt(CHARTS_COLOR, android.R.color.holo_blue_dark));
+            paint.setColor(settings.getInt(CHARTS_COLOR,
+                    getResources().getColor(android.R.color.holo_blue_dark)));
             paint.setStrokeWidth(settings.getInt(THICKNESS, 8));
 
             //Setting params on Charts

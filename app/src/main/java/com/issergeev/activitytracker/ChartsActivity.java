@@ -68,7 +68,7 @@ public class ChartsActivity extends AppCompatActivity {
 
         date.setText(new StringBuilder().append(Calendar.getInstance().get(Calendar.YEAR))
                                         .append("-")
-                                        .append(Calendar.getInstance().get(Calendar.MONTH))
+                                        .append(Calendar.getInstance().get(Calendar.MONTH) + 1)
                                         .append("-")
                                         .append(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)));
     }
