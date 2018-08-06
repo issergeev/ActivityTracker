@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/add_animal"
+        android:textSize="@dimen/text_size"
+        android:textColor="@android:color/holo_red_light"
+        android:textStyle="normal"/>
+
+    <TextView
+        android:id="@+id/functionDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="@dimen/text_size"
+        android:textColor="@android:color/holo_orange_dark"
+        android:text="@string/add_animal_description"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_below="@id/functionDescription"
+        android:src="@drawable/ic_action_add"/>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/nextButton"
+        android:textColor="@android:color/holo_red_dark"
+        android:background="@drawable/borderless_button_shape"/>
+</RelativeLayout>

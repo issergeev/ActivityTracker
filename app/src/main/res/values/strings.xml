@@ -1,58 +1,58 @@
 <resources>
     <string name="app_name">ActivityTracker</string>
-    <string name="id_number">Номер бирки</string>
-    <string name="type">Порода</string>
-    <string name="color">Масть</string>
-    <string name="mother">Мать</string>
-    <string name="father">Отец</string>
-    <string name="id">Номер чипа</string>
-    <string name="age">Возраст</string>
-    <string name="no_animals_text">Вы пока не добавили ни одного животного</string>
-    <string name="animal_passport">Паспорт животного</string>
-    <string name="save">Сохранить</string>
-    <string name="close">Закрыть</string>
-    <string name="input_data">Ввод данных</string>
-    <string name="milk">Надой</string>
-    <string name="fat">Жирность</string>
-    <string name="weight">Масса</string>
-    <string name="birth_date">Дата рождения:</string>
-    <string name="default_date">Выбирите дату</string>
-    <string name="litre">Литр(ов)</string>
+    <string name="id">Chip number</string>
+    <string name="id_number">Chip number</string>
+    <string name="type">Type</string>
+    <string name="color">Color</string>
+    <string name="mother">Mother</string>
+    <string name="father">Father</string>
+    <string name="age">age</string>
+    <string name="no_animals_text">There are no any animals added</string>
+    <string name="animal_passport">Animal info</string>
+    <string name="save">Save</string>
+    <string name="close">Close</string>
+    <string name="input_data">Charts Data</string>
+    <string name="milk">Milk volume</string>
+    <string name="fat">Fatness</string>
+    <string name="weight">Weight</string>
+    <string name="birth_date">Date of Birth:</string>
+    <string name="default_date">Select date</string>
+    <string name="litre">liters</string>
     <string name="percent">%</string>
-    <string name="kg">Кг</string>
-    <string name="select_parent">Выбирите родителя</string>
-    <string name="incorrect_data">Некорректные данные</string>
-    <string name="wrong_text">Что-то пошло не так!</string>
-    <string name="quit">Выход</string>
-    <string name="quit_message">Выйти без сохранения данных?</string>
-    <string name="wait">Пожалуйста, подождите...</string>
-    <string name="refreshing_data">Обновляем данные...</string>
-    <string name="error">Ошибка</string>
-    <string name="input_fields">Пожалуйста, заполните все поля для продолжения!</string>
-    <string name="delete_button">Удалить животное</string>
-    <string name="delete_text">Подтвердите удаление. Будте внимательны, это действие не может быть отменено</string>
-    <string name="attention">Внимание</string>
-    <string name="id_exists">Животное с данным номером уже существует</string>
-    <string name="incorrect_date">Пожалуйста, укажите дату позже чем дата рождения коровы:</string>
-    <string name="different_date">Вы изменили дату рождения. В случае сохранения измененений
-        все данные диаграмм будут удалены. Это действие необратимо, вы хотите продолжить?</string>
-    <string name="delete">Удалить</string>
-    <string name="cancel">Отмена</string>
-    <string name="yes">Да</string>
-    <string name="no">Нет</string>
-    <string name="exit_confirmation">Для выхода нажмите кнопку \"Назад\" еще раз</string>
-    <string name="delete_animal_button">Удалить животное</string>
+    <string name="kg">Kg</string>
+    <string name="select_parent">Select parent</string>
+    <string name="incorrect_data">Incorrect data</string>
+    <string name="wrong_text">Something went wrong!</string>
+    <string name="quit">Exit</string>
+    <string name="quit_message">Do you want to exit without data saving?</string>
+    <string name="wait">Please, wait...</string>
+    <string name="refreshing_data">Refreshing data...</string>
+    <string name="error">Error</string>
+    <string name="input_fields">Please, fill in all the fields!</string>
+    <string name="delete_button">Delete the animal</string>
+    <string name="delete_text">Confirm deleting. Be careful, this action cannot be cancelled</string>
+    <string name="attention">WARNING</string>
+    <string name="id_exists">There is another animal having this ID</string>
+    <string name="incorrect_date">Please, input date after:</string>
+    <string name="different_date">The Date of Birth has been changed. If you continue all charts data will be removed.
+        Are you sure you want to continue?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="exit_confirmation">To exit the application press \"Back\" again</string>
+    <string name="delete_animal_button">Delete the animal</string>
     <string name="date">yyyy-MM-dd</string>
-    <string name="milk_chart">График надоя</string>
-    <string name="fat_chart">График жирности</string>
-    <string name="weight_chart">График веса</string>
-    <string name="settings">Настройки</string>
-    <string name="charts_stroke_thickness">ТОЛЩИНА ЛИНИЙ ГРАФИКОВ</string>
-    <string name="charts_scrolling">РАЗРЕШИТЬ ПРОКРУТКУ ГРАФИКА</string>
-    <string name="confirm_exit">ПОДТВЕРЖДАТЬ ВЫХОД</string>
+    <string name="milk_chart">Milk volume chart</string>
+    <string name="fat_chart">Fatness chart</string>
+    <string name="weight_chart">Weight chart</string>
+    <string name="settings">Settings</string>
+    <string name="charts_stroke_thickness">CHARTS LINE THICKNESS</string>
+    <string name="charts_scrolling">ENABLE CHARTS SCROLLING</string>
+    <string name="confirm_exit">CONFIRM EXIT</string>
 
     <string-array name="type_of_cows">
-        <item>Выберите породу</item>
+        <item>Select type</item>
         <item>Айрширская</item>
         <item>Англерская</item>
         <item>Холмогорская</item>
@@ -61,10 +61,20 @@
     </string-array>
 
     <string-array name="color_of_cows">
-        <item>Выбирите цвет</item>
-        <item>Черная</item>
-        <item>Белая</item>
-        <item>Красная</item>
-        <item>Рыжая</item>
+        <item>Select color</item>
+        <item>Black</item>
+        <item>White</item>
+        <item>Red</item>
+        <item>Ginger</item>
     </string-array>
+
+    <string name="charts_line_color">Charts line color</string>
+    <string name="selectButton">Select</string>
+    <string name="colorHeading">Color</string>
+    <string name="add_animal">Add Animal</string>
+    <string name="add_animal_description">Use \'+\', to add a new animal</string>
+    <string name="nextButton">Next</string>
+    <string name="settingsHeading">Settings</string>
+    <string name="settings_description">Use button \'Settings\', to set parameters</string>
+    <string name="startButton">Start</string>
 </resources>

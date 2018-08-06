@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,7 +52,8 @@ public class InfoActivity extends AppCompatActivity {
     //Preferences name
     private final String PREFERENCES_NAME = "Settings";
     private final String THICKNESS = "thickness",
-            SCROLLING = "scrolling";
+            SCROLLING = "scrolling",
+            CHARTS_COLOR = "charts_color";
 
     //Time to press the graphs
     private long milkTapTime = 0,
@@ -103,9 +105,9 @@ public class InfoActivity extends AppCompatActivity {
         super.onResume();
 
         try {
-            this.milk.removeAllSeries();
-            this.fat.removeAllSeries();
-            this.weight.removeAllSeries();
+            milk.removeAllSeries();
+            fat.removeAllSeries();
+            weight.removeAllSeries();
 
             DB db = new DB(this);
             SQLiteDatabase database = db.getReadableDatabase();
@@ -138,17 +140,27 @@ public class InfoActivity extends AppCompatActivity {
             LineGraphSeries<DataPoint> milkSeries = new LineGraphSeries<>(milkPoints);
             LineGraphSeries<DataPoint> fatSeries = new LineGraphSeries<>(fatPoints);
             LineGraphSeries<DataPoint> weightSeries = new LineGraphSeries<>(weightPoints);
+
+            //Setting scrolling to Charts
+            milk.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
+            fat.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
+            weight.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
+
+            final Paint paint = new Paint();
+            paint.setColor(settings.getInt(CHARTS_COLOR, android.R.color.holo_blue_dark));
+            paint.setStrokeWidth(settings.getInt(THICKNESS, 8));
+
+            //Setting params on Charts
+            milkSeries.setDrawDataPoints(true);
+            milkSeries.setCustomPaint(paint);
+            fatSeries.setDrawDataPoints(true);
+            fatSeries.setCustomPaint(paint);
+            weightSeries.setDrawDataPoints(true);
+            weightSeries.setCustomPaint(paint);
+
             this.milk.addSeries(milkSeries);
             this.fat.addSeries(fatSeries);
             this.weight.addSeries(weightSeries);
-
-            //Setting params on Charts
-            milkSeries.setThickness(settings.getInt(THICKNESS, 8));
-            milkSeries.setBackgroundColor(android.R.color.holo_blue_dark);
-            fatSeries.setThickness(settings.getInt(THICKNESS, 8));
-            fatSeries.setBackgroundColor(android.R.color.holo_blue_dark);
-            weightSeries.setThickness(settings.getInt(THICKNESS, 8));
-            weightSeries.setBackgroundColor(android.R.color.holo_blue_dark);
 
             cursor.close();
         } catch (IllegalArgumentException e) {
@@ -284,11 +296,6 @@ public class InfoActivity extends AppCompatActivity {
                     weightTapTime = System.currentTimeMillis() + pressTime;
             }
         });
-
-        //Setting scrolling to Charts
-        milk.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
-        fat.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
-        weight.getViewport().setScalable(settings.getBoolean(SCROLLING, false));
     }
 
     @Override
@@ -496,8 +503,7 @@ public class InfoActivity extends AppCompatActivity {
                                 }
                             });
                             dialog.show();
-                        }
-                        if (intent.hasExtra(ID)) {
+                        } else if (intent.hasExtra(ID)) {
                             new UpdateAnimal().execute(intent.getStringExtra(ID), id, type, color, animalAge, mother, father);
                         } else
                             new AddAnimal().execute(id, type, color, animalAge, mother, father);

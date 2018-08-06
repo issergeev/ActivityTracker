@@ -29,4 +29,5 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'com.xw.repo:bubbleseekbar:3.5-lite'
+    implementation 'com.github.skydoves:colorpickerpreference:1.0.2'
 }

@@ -140,13 +140,13 @@ public class ChartsActivity extends AppCompatActivity {
                             alertDialog = new AlertDialog.Builder(ChartsActivity.this);
                         }
                         alertDialog.setTitle(R.string.error)
-                                .setMessage(R.string.input_fields)
+                                .setMessage(getResources().getString(R.string.incorrect_date) + " "
+                                        + intent.getStringExtra(DATE))
                                 .setPositiveButton(android.R.string.yes, null)
                                 .setCancelable(true)
                                 .setIcon(R.drawable.ic_action_block)
                                 .show();
-                    }
-                    if (checkData()) {
+                    } else {
                         String milkValue = milk.getText().toString().trim();
                         String fatValue = fat.getText().toString().trim();
                         String weightValue = weight.getText().toString().trim();
@@ -168,7 +168,7 @@ public class ChartsActivity extends AppCompatActivity {
 
     //Function to compare date
     private static boolean dateCompare(Date date1, Date date2) {
-        return (date1.before(date2) || date1.equals(date2) ? false : true);
+        return (!date1.before(date2) && !date1.equals(date2));
     }
 
     //Function to verify data

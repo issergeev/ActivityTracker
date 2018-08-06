@@ -1,9 +1,12 @@
 package com.issergeev.activitytracker;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Switch;
 
 import com.xw.repo.BubbleSeekBar;
@@ -13,12 +16,16 @@ public class SettingsActivity extends AppCompatActivity {
     private final String PREFERENCES_NAME = "Settings";
     private final String THICKNESS = "thickness",
                          SCROLLING = "scrolling",
-                         EXIT = "exit";
+                         EXIT = "exit",
+                         CHARTS_COLOR = "charts_color";
 
     private SharedPreferences settings;
 
     private BubbleSeekBar lineThickness;
     private Switch enableScrolling, confirmExit;
+    private ImageView chartsColor;
+
+    private Fragment colorPickerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +35,11 @@ public class SettingsActivity extends AppCompatActivity {
         //Initialize preferences
         settings = getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
 
+        colorPickerFragment = new FragmentColorPicker();
+
         //Initialize variables
         lineThickness = findViewById(R.id.thickness);
+        chartsColor = findViewById(R.id.chartsColor);
         enableScrolling = findViewById(R.id.scrollGraph);
         confirmExit = findViewById(R.id.exit);
 
@@ -37,6 +47,18 @@ public class SettingsActivity extends AppCompatActivity {
         lineThickness.setProgress(settings.getInt(THICKNESS, 8));
         enableScrolling.setChecked(settings.getBoolean(SCROLLING, false));
         confirmExit.setChecked(settings.getBoolean(EXIT, false));
+
+        chartsColor.setBackgroundColor(settings.getInt(CHARTS_COLOR, android.R.color.holo_blue_dark));
+
+        chartsColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .add(R.id.parentLayout, colorPickerFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
     }
 
     @Override

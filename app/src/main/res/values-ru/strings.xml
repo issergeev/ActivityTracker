@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ActivityTracker</string>
+    <string name="id_number">Номер бирки</string>
+    <string name="id">Номер чипа</string>
+    <string name="type">Порода</string>
+    <string name="color">Масть</string>
+    <string name="mother">Мать</string>
+    <string name="father">Отец</string>
+    <string name="age">Возраст</string>
+    <string name="no_animals_text">Вы пока не добавили ни одного животного</string>
+    <string name="animal_passport">Паспорт животного</string>
+    <string name="save">Сохранить</string>
+    <string name="close">Закрыть</string>
+    <string name="input_data">Ввод данных</string>
+    <string name="milk">Надой</string>
+    <string name="fat">Жирность</string>
+    <string name="weight">Масса</string>
+    <string name="birth_date">Дата рождения:</string>
+    <string name="default_date">Выбирите дату</string>
+    <string name="litre">Литр(ов)</string>
+    <string name="percent">%</string>
+    <string name="kg">Кг</string>
+    <string name="select_parent">Выбирите родителя</string>
+    <string name="incorrect_data">Некорректные данные</string>
+    <string name="wrong_text">Что-то пошло не так!</string>
+    <string name="quit">Выход</string>
+    <string name="quit_message">Выйти без сохранения данных?</string>
+    <string name="wait">Пожалуйста, подождите...</string>
+    <string name="refreshing_data">Обновляем данные...</string>
+    <string name="error">Ошибка</string>
+    <string name="input_fields">Пожалуйста, заполните все поля для продолжения!</string>
+    <string name="delete_button">Удалить животное</string>
+    <string name="delete_text">Подтвердите удаление. Будте внимательны, это действие не может быть отменено</string>
+    <string name="attention">Внимание</string>
+    <string name="id_exists">Животное с данным номером уже существует</string>
+    <string name="incorrect_date">Пожалуйста, укажите дату позже чем дата рождения коровы:</string>
+    <string name="different_date">Вы изменили дату рождения. В случае сохранения измененений
+        все данные диаграмм будут удалены. Это действие необратимо, вы хотите продолжить?</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="exit_confirmation">Для выхода нажмите кнопку \"Назад\" еще раз</string>
+    <string name="delete_animal_button">Удалить животное</string>
+    <string name="date">yyyy-MM-dd</string>
+    <string name="milk_chart">График надоя</string>
+    <string name="fat_chart">График жирности</string>
+    <string name="weight_chart">График веса</string>
+    <string name="settings">Настройки</string>
+    <string name="charts_stroke_thickness">ТОЛЩИНА ЛИНИЙ ГРАФИКОВ</string>
+    <string name="charts_scrolling">РАЗРЕШИТЬ ПРОКРУТКУ ГРАФИКА</string>
+    <string name="confirm_exit">ПОДТВЕРЖДАТЬ ВЫХОД</string>
+
+    <string-array name="type_of_cows">
+        <item>Выберите породу</item>
+        <item>Айрширская</item>
+        <item>Англерская</item>
+        <item>Холмогорская</item>
+        <item>Голландская</item>
+        <item>Голштинская</item>
+    </string-array>
+
+    <string-array name="color_of_cows">
+        <item>Выбирите цвет</item>
+        <item>Черная</item>
+        <item>Белая</item>
+        <item>Красная</item>
+        <item>Рыжая</item>
+    </string-array>
+
+    <string name="charts_line_color">Цвет линий графиков</string>
+    <string name="selectButton">Выбрать</string>
+    <string name="colorHeading">Цвет</string>
+    <string name="add_animal">Добавление животных</string>
+    <string name="add_animal_description">Используйте \'+\', чтобы добавить новое животное</string>
+    <string name="nextButton">Далее</string>
+    <string name="settingsHeading">Настройки</string>
+    <string name="settings_description">Используйте пиктограмму \'Настройки\', чтобы добавить новое животное</string>
+    <string name="startButton">Начать использование</string>
+</resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/parentLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/standard_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#70a7ff">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/colorHeading"
+        android:textSize="@dimen/heading_size"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_light"/>
+
+    <com.skydoves.colorpickerpreference.ColorPickerView
+        android:id="@+id/colorPickerView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        app:palette="@drawable/palette"
+        app:selector="@drawable/wheel"/>
+
+    <TextView
+        android:id="@+id/colorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_below="@id/colorPickerView"
+        android:gravity="center"
+        android:textSize="@dimen/text_size"
+        android:text="#FFF000"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/chouseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/selectButton"
+        android:textColor="@android:color/holo_red_dark"
+        android:background="@drawable/borderless_button_shape"/>
+</RelativeLayout>
